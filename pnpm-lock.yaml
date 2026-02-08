@@ -21,7 +21,7 @@ importers:
         specifier: 0.12.3
         version: 0.12.3(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@assistant-ui/ux-primitives':
-        specifier: workspace:*
+        specifier: file:../../packages/core
         version: link:../../packages/core
       fumadocs-core:
         specifier: ^16.5.0
