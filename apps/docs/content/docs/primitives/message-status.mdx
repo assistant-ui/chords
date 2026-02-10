@@ -1,0 +1,87 @@
+---
+title: MessageStatus
+description: Show loading spinner during streaming and error messages on failure.
+---
+
+## Overview
+
+`MessageStatus` renders a loading spinner while an assistant message is being generated, an error message if something goes wrong, and nothing when the message is complete. Drop it into any assistant message to get automatic status feedback.
+
+## Demo
+
+<MessageStatusDemo />
+
+## When to use
+
+- Show a spinner while an assistant response is streaming
+- Display error messages when generation fails
+- Automatically hide when the message is complete
+- Commonly placed below message content in assistant messages
+
+## Features
+
+- **Auto-detect state**: Reads `message.status` from context to determine running/error/complete
+- **Loading spinner**: Animated SVG spinner during generation
+- **Error display**: Shows error icon and message on failure
+- **Auto-hide**: Renders nothing when message is complete
+- **Customizable**: Override visuals, styling, or provide a fully custom renderer
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | string | - | Container class |
+| `runningClassName` | string | - | Class for running state text |
+| `errorClassName` | string | - | Class for error state text |
+| `spinnerClassName` | string | - | Class for spinner SVG |
+| `renderVisual` | function | - | Custom visual renderer |
+
+## Basic Usage
+
+```tsx
+import { MessageStatus } from "@assistant-ui/ux-primitives";
+
+export function MyAssistantMessage() {
+  return (
+    <MessagePrimitive.Root>
+      <MessagePrimitive.Content />
+      <MessageStatus />
+    </MessagePrimitive.Root>
+  );
+}
+```
+
+## Custom Visual
+
+```tsx
+<MessageStatus
+  renderVisual={(state, error) => {
+    if (state === "running") return <span>Thinking...</span>;
+    if (state === "error") return <span>Error: {String(error)}</span>;
+    return null;
+  }}
+/>
+```
+
+## Custom Styling
+
+```tsx
+<MessageStatus
+  className="flex items-center gap-2 text-xs"
+  runningClassName="text-blue-400"
+  errorClassName="text-red-500 font-medium"
+  spinnerClassName="size-4 animate-spin"
+/>
+```
+
+## Underlying Primitives
+
+MessageStatus reads message state via the `useMessage` hook from `@assistant-ui/react` and derives a simplified three-state model:
+
+- **`running`** — message is currently being generated
+- **`error`** — message completed with an error
+- **`complete`** — message finished successfully (renders nothing)
+
+## Migration Notes
+
+> TODO: migrate to store — `useMessage` → `useAuiState(({ message }) => message)`

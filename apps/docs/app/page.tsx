@@ -38,6 +38,11 @@ const primitives = [
     description: "Navigate between message branches with prev/next controls.",
     href: "/docs/primitives/branch-navigation",
   },
+  {
+    name: "MessageStatus",
+    description: "Loading spinner during streaming, error message on failure.",
+    href: "/docs/primitives/message-status",
+  },
 ];
 
 export default function HomePage() {

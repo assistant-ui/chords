@@ -11,6 +11,7 @@ import {
   BranchNavigation,
   ComposerActionStatus,
   MessageActionBar,
+  MessageStatus,
   ScrollToBottom,
   ThreadEmpty,
 } from "@assistant-ui/ux-primitives";
@@ -91,7 +92,7 @@ const Thread: FC = () => {
       <Composer />
 
       <p className="pb-2 text-center text-xs text-zinc-500">
-        UX Primitives — testing ComposerActionStatus + MessageActionBar + ThreadEmpty + ScrollToBottom + BranchNavigation
+        UX Primitives — testing ComposerActionStatus + MessageActionBar + MessageStatus + ThreadEmpty + ScrollToBottom + BranchNavigation
       </p>
     </ThreadPrimitive.Root>
   );
@@ -129,6 +130,7 @@ const AssistantMessage: FC = () => {
         <div className="text-white/90">
           <MessagePrimitive.Content />
         </div>
+        <MessageStatus />
         {/*
           MessageActionBar replaces ~40-60 lines of:
 

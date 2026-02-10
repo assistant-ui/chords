@@ -5,3 +5,4 @@ export * from "./primitives/suggestion-chips";
 export * from "./primitives/scroll-to-bottom";
 export * from "./primitives/thread-empty";
 export * from "./primitives/branch-navigation";
+export * from "./primitives/message-status";
