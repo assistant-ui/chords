@@ -27,14 +27,7 @@ export type SuggestionItem =
  * Typically used inside `ThreadPrimitive.Empty` for welcome screens.
  *
  * ---
- * MIGRATION NOTE (tap/store):
- *
- * This component does not read any state from hooks directly.
- * `ThreadPrimitive.Suggestion` handles disabled state internally
- * via `useAuiState(({ thread }) => thread.isDisabled)`.
- *
- * When the Store API is available on npm, no changes are needed here.
- * The underlying `ThreadPrimitive.Suggestion` will migrate internally.
+ * TODO: migrate to store
  */
 export function SuggestionChips({
   /**

@@ -21,14 +21,7 @@ import {
  * and optional suggestion chips (composing our SuggestionChips primitive).
  *
  * ---
- * MIGRATION NOTE (tap/store):
- *
- * This component does not read any state from hooks directly.
- * `ThreadPrimitive.Empty` handles visibility internally
- * via `useAuiState(({ thread }) => thread.messages.length === 0)`.
- *
- * When the Store API is available on npm, no changes are needed here.
- * The underlying `ThreadPrimitive.Empty` will migrate internally.
+ * TODO: migrate to store
  */
 export function ThreadEmpty({
   /**

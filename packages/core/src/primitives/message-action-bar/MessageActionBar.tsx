@@ -24,15 +24,7 @@ export type MessageAction = "copy" | "reload" | "edit" | "speak";
  * - User messages: `<MessageActionBar actions={["edit"]} />`
  *
  * ---
- * MIGRATION NOTE (tap/store):
- *
- * This component does not read any state from hooks directly.
- * All visibility logic is handled by `ActionBarPrimitive.Root` internally.
- * The copy action delegates to our `CopyButton` which also has zero hook deps.
- *
- * When the Store API is available on npm, no changes are needed here.
- * Individual action components (ReloadAction, EditAction, etc.) use
- * `ActionBarPrimitive.*` sub-primitives which will migrate internally.
+ * TODO: migrate to store
  */
 export function MessageActionBar({
   /**

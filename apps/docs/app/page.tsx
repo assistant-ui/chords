@@ -13,7 +13,8 @@ const primitives = [
   },
   {
     name: "MessageActionBar",
-    description: "Config-driven action bar for messages — copy, reload, edit, speak.",
+    description:
+      "Config-driven action bar for messages — copy, reload, edit, speak.",
     href: "/docs/primitives/message-action-bar",
   },
   {
@@ -28,8 +29,14 @@ const primitives = [
   },
   {
     name: "ScrollToBottom",
-    description: "Floating button that appears when scrolled away from latest messages.",
+    description:
+      "Floating button that appears when scrolled away from latest messages.",
     href: "/docs/primitives/scroll-to-bottom",
+  },
+  {
+    name: "BranchNavigation",
+    description: "Navigate between message branches with prev/next controls.",
+    href: "/docs/primitives/branch-navigation",
   },
 ];
 
@@ -55,7 +62,8 @@ export default function HomePage() {
             assistant-ui
           </a>
           .<br />
-          Each primitive replaces 20-60 lines of boilerplate with a single component.
+          Each primitive replaces 20-60 lines of boilerplate with a single
+          component.
         </p>
 
         <div className="mt-8 flex items-center justify-center gap-4">
@@ -85,25 +93,25 @@ export default function HomePage() {
               Before — 40+ lines
             </p>
             <pre className="overflow-x-auto text-xs leading-relaxed text-fd-muted-foreground">
-{`<ActionBarPrimitive.Root
-  hideWhenRunning
-  autohide="not-last"
-  autohideFloat="single-branch"
->
-  <ActionBarPrimitive.Copy asChild>
-    <button>
-      <AuiIf condition={...}>
-        <CheckIcon />
-      </AuiIf>
-      <AuiIf condition={...}>
-        <CopyIcon />
-      </AuiIf>
-    </button>
-  </ActionBarPrimitive.Copy>
-  <ActionBarPrimitive.Reload asChild>
-    <button><ReloadIcon /></button>
-  </ActionBarPrimitive.Reload>
-</ActionBarPrimitive.Root>`}
+              {`<ActionBarPrimitive.Root
+                  hideWhenRunning
+                  autohide="not-last"
+                  autohideFloat="single-branch"
+                >
+                  <ActionBarPrimitive.Copy asChild>
+                    <button>
+                      <AuiIf condition={...}>
+                        <CheckIcon />
+                      </AuiIf>
+                      <AuiIf condition={...}>
+                        <CopyIcon />
+                      </AuiIf>
+                    </button>
+                  </ActionBarPrimitive.Copy>
+                  <ActionBarPrimitive.Reload asChild>
+                    <button><ReloadIcon /></button>
+                  </ActionBarPrimitive.Reload>
+                </ActionBarPrimitive.Root>`}
             </pre>
           </div>
           <div className="rounded-lg border border-fd-border bg-fd-card p-4">
@@ -111,9 +119,9 @@ export default function HomePage() {
               After — 1 line
             </p>
             <pre className="overflow-x-auto text-xs leading-relaxed text-fd-foreground">
-{`<MessageActionBar
-  actions={["copy", "reload"]}
-/>`}
+              {`<MessageActionBar
+                  actions={["copy", "reload"]}
+                />`}
             </pre>
           </div>
         </div>

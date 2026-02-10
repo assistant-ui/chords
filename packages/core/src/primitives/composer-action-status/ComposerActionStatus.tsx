@@ -36,17 +36,9 @@ export function ComposerActionStatus({
   idleButtonClassName?: string;
   renderVisual?: (state: ComposerActionState) => React.ReactNode;
 }) {
-  /**
-   * NOTE:
-   * `useThread` is deprecated in favor of `useAuiState(({ thread }) => thread)`,
-   * but the replacement relies on store APIs that are not yet published to npm
-   *
-   * We intentionally use `useThread` here to remain compatible with the
-   * currently released @assistant-ui packages.
-   *
-   * This can be migrated internally once the Store version is aligned.
-   */
+  // TODO: migrate to store — useThread to useAuiState(({ thread }) => thread)
   const thread = useThread();
+  // TODO: migrate to store — useComposer to useAuiState(({ composer }) => composer)
   const composer = useComposer();
 
   const state = deriveComposerActionState({

@@ -21,21 +21,7 @@ import {
  * Must be rendered inside a message context (e.g. within MessagePrimitive.Root).
  *
  * ---
- * MIGRATION NOTE (tap/store):
- *
- * Currently this component does NOT read `isCopied` from any hook.
- * Instead it relies on `ActionBarPrimitive.Copy` setting `data-copied`
- * on the DOM element, and Tailwind's `group-data-[copied]` variant
- * in CopyButtonVisual for the icon toggle.
- *
- * When the Store API is available on npm, we could optionally switch to:
- *   `const isCopied = useAuiState(({ message }) => message.isCopied);`
- * and pass it to `CopyButtonVisual` as a prop.
- * This would also allow the `renderVisual` prop to receive `isCopied` as a boolean.
- *
- * The current Tailwind-only approach is simpler and has zero hook dependencies,
- * so migration is optional — only needed if we want JS-driven visuals
- * (e.g. animations, render-prop with boolean state).
+ * TODO: migrate to store — optionally switch CSS-driven state to useAuiState
  */
 export function CopyButton({
   /**

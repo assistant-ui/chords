@@ -1,0 +1,86 @@
+---
+title: BranchNavigation
+description: Navigate between message branches with prev/next controls and count display.
+---
+
+## Overview
+
+`BranchNavigation` provides a UI for navigating between message branches. It displays previous/next buttons with an automatic count indicator (e.g., "2 / 5") and auto-hides when there's only one branch.
+
+## Demo
+
+<BranchNavigationDemo />
+
+## When to use
+
+- Display alternative response branches in a conversation
+- Show which branch the user is currently viewing
+- Auto-hide when there's only one branch
+- Commonly appears after assistant messages in threaded conversations
+
+## Features
+
+- **Automatic counting**: Reads `message.branchNumber` and `message.branchCount` from context
+- **Navigation buttons**: Disabled state automatically handled by BranchPickerPrimitive
+- **Auto-hide**: Hides when single branch (configurable)
+- **Customizable**: Icons, styling, and counter rendering
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | string | - | Container class |
+| `buttonClassName` | string | - | Prev/next button class |
+| `counterClassName` | string | - | Counter text class |
+| `iconClassName` | string | - | Icon size class |
+| `hideWhenSingleBranch` | boolean | `true` | Hide when only 1 branch exists |
+| `renderCounter` | function | - | Custom counter renderer |
+
+## Basic Usage
+
+```tsx
+import { BranchNavigation } from "@assistant-ui/ux-primitives";
+
+export function MyMessage() {
+  return (
+    <MessagePrimitive.Root>
+      <div>Message content here</div>
+      <BranchNavigation />
+    </MessagePrimitive.Root>
+  );
+}
+```
+
+## Custom Counter
+
+```tsx
+<BranchNavigation
+  renderCounter={(current, total) => (
+    <span className="text-xs">
+      Branch {current} of {total}
+    </span>
+  )}
+/>
+```
+
+## Custom Styling
+
+```tsx
+<BranchNavigation
+  className="flex gap-3 rounded-lg bg-blue-500/20 px-3 py-2"
+  buttonClassName="size-7 hover:bg-blue-500/40"
+  counterClassName="text-sm font-bold"
+/>
+```
+
+## Underlying Primitives
+
+BranchNavigation composes these @assistant-ui/react primitives:
+
+- `BranchPickerPrimitive.Root` - Container with auto-disable logic
+- `BranchPickerPrimitive.Previous` - Navigate to previous branch
+- `BranchPickerPrimitive.Next` - Navigate to next branch
+
+## Migration Notes
+
+> TODO: migrate to store — `useMessage` → `useAuiState(({ message }) => message)`

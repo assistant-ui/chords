@@ -15,13 +15,7 @@ import { DEFAULT_BUTTON_CLASSNAME, DEFAULT_ICON_CLASSNAME } from "./defaults";
  * with relative positioning so the button floats at the bottom-center.
  *
  * ---
- * MIGRATION NOTE (tap/store):
- *
- * This component does not read any state from hooks directly.
- * `ThreadPrimitive.ScrollToBottom` handles the "is at bottom" check internally.
- *
- * When the Store API is available on npm, no changes are needed here.
- * The underlying `ThreadPrimitive.ScrollToBottom` will migrate internally.
+ * TODO: migrate to store
  */
 export function ScrollToBottom({
   /**

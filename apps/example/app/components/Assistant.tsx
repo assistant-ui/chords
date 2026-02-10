@@ -8,6 +8,7 @@ import {
   MessagePrimitive,
 } from "@assistant-ui/react";
 import {
+  BranchNavigation,
   ComposerActionStatus,
   MessageActionBar,
   ScrollToBottom,
@@ -90,7 +91,7 @@ const Thread: FC = () => {
       <Composer />
 
       <p className="pb-2 text-center text-xs text-zinc-500">
-        UX Primitives — testing ComposerActionStatus + MessageActionBar + ThreadEmpty + ScrollToBottom
+        UX Primitives — testing ComposerActionStatus + MessageActionBar + ThreadEmpty + ScrollToBottom + BranchNavigation
       </p>
     </ThreadPrimitive.Root>
   );
@@ -143,8 +144,9 @@ const AssistantMessage: FC = () => {
               </ActionBarPrimitive.Reload>
             </ActionBarPrimitive.Root>
         */}
-        <div className="mt-1 opacity-0 transition-opacity group-hover/message:opacity-100">
+        <div className="mt-1 flex items-center gap-2 opacity-0 transition-opacity group-hover/message:opacity-100">
           <MessageActionBar actions={["copy", "reload"]} />
+          <BranchNavigation />
         </div>
       </div>
     </MessagePrimitive.Root>
