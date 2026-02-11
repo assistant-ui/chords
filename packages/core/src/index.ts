@@ -8,3 +8,4 @@ export * from "./primitives/branch-navigation";
 export * from "./primitives/message-status";
 export * from "./primitives/edit-composer";
 export * from "./primitives/follow-up-suggestions";
+export * from "./primitives/attachment";

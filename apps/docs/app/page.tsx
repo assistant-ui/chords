@@ -53,6 +53,11 @@ const primitives = [
     description: "Dynamic suggestion chips after assistant responses.",
     href: "/docs/primitives/follow-up-suggestions",
   },
+  {
+    name: "Attachment",
+    description: "File and image attachments for composer and messages.",
+    href: "/docs/primitives/attachment",
+  },
 ];
 
 export default function HomePage() {
