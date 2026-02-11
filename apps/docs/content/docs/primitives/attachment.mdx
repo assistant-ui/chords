@@ -1,0 +1,87 @@
+---
+title: Attachment
+description: File and image attachment components for composer and messages.
+---
+
+## Overview
+
+The Attachment primitives provide a complete attachment experience — adding files, previewing them in the composer, and displaying them in sent messages. Three components handle the full flow with zero manual wiring.
+
+## Demo
+
+<AttachmentDemo />
+
+## When to use
+
+- Allow users to attach files or images to messages
+- Preview pending attachments in the composer before sending
+- Display sent attachments in user messages
+- Automatic remove button for pending attachments
+
+## Components
+
+### ComposerAddAttachment
+
+Button to trigger the file picker.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | string | - | Button class |
+| `children` | ReactNode | Plus icon | Custom icon |
+
+### ComposerAttachments
+
+Renders previews of all pending attachments in the composer.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | string | - | Container class |
+
+### MessageAttachments
+
+Renders all attachments on a sent message.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | string | - | Container class |
+
+## Basic Usage
+
+```tsx
+import {
+  ComposerAttachments,
+  ComposerAddAttachment,
+  MessageAttachments,
+} from "@assistant-ui/ux-primitives";
+
+// In your composer
+<ComposerPrimitive.Root>
+  <ComposerAttachments />
+  <div className="flex items-center">
+    <ComposerAddAttachment />
+    <ComposerPrimitive.Input />
+    <ComposerActionStatus />
+  </div>
+</ComposerPrimitive.Root>
+
+// In your user message
+<MessagePrimitive.Root>
+  <MessageAttachments />
+  <MessagePrimitive.Content />
+</MessagePrimitive.Root>
+```
+
+## Features
+
+- **Auto-detect type**: Images show thumbnails, files show an icon
+- **File URL lifecycle**: Handles object URL creation and cleanup for pending files
+- **Remove button**: Automatically shown only for composer attachments
+- **Source detection**: Knows if attachment is in composer or message context
+
+## How It Works
+
+Internally, each attachment uses `useAttachment()` to access the attachment state. For images, it creates object URLs from `File` objects (pending) or reads base64/URL sources (complete). The remove button is conditionally rendered based on the attachment source.
+
+## Migration Notes
+
+> TODO: migrate to store — `useAttachment` → `useAuiState(({ attachment }) => attachment)`

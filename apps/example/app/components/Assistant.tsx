@@ -6,13 +6,17 @@ import {
   ThreadPrimitive,
   ComposerPrimitive,
   MessagePrimitive,
+  SimpleImageAttachmentAdapter,
 } from "@assistant-ui/react";
 import {
   BranchNavigation,
   ComposerActionStatus,
+  ComposerAddAttachment,
+  ComposerAttachments,
   EditComposer,
   FollowUpSuggestions,
   MessageActionBar,
+  MessageAttachments,
   MessageStatus,
   ScrollToBottom,
   ThreadEmpty,
@@ -23,6 +27,7 @@ import type { FC } from "react";
 export const Assistant: FC = () => {
   const runtime = useLocalRuntime(mockModelAdapter, {
     adapters: {
+      attachments: new SimpleImageAttachmentAdapter(),
       suggestion: {
         async generate() {
           return [
@@ -120,6 +125,7 @@ const Thread: FC = () => {
 const UserMessage: FC = () => {
   return (
     <MessagePrimitive.Root className="group/message mx-auto flex w-full max-w-3xl flex-col items-end gap-1">
+      <MessageAttachments />
       <div className="max-w-[80%] rounded-3xl bg-white/10 px-5 py-2.5 text-white/90">
         <MessagePrimitive.Content />
       </div>
@@ -176,12 +182,15 @@ const AssistantMessage: FC = () => {
 
 const Composer: FC = () => {
   return (
-    <ComposerPrimitive.Root className="mx-auto flex w-full max-w-3xl items-center rounded-3xl bg-white/5 px-2 justify-center">
-      <ComposerPrimitive.Input
-        placeholder="Type a message..."
-        className="h-12 max-h-40 flex-1 resize-none  p-3.5 text-sm text-white outline-none placeholder:text-white/50 "
-        autoFocus
-      />
+    <ComposerPrimitive.Root className="mx-auto flex w-full max-w-3xl flex-col rounded-3xl bg-white/5 px-2">
+      <ComposerAttachments />
+      <div className="flex items-center justify-center">
+        <ComposerAddAttachment />
+        <ComposerPrimitive.Input
+          placeholder="Type a message..."
+          className="h-12 max-h-40 flex-1 resize-none p-3.5 text-sm text-white outline-none placeholder:text-white/50"
+          autoFocus
+        />
       {/*
         This single component replaces the typical pattern of:
 
@@ -196,7 +205,8 @@ const Composer: FC = () => {
             </ComposerPrimitive.Cancel>
           </AuiIf>
       */}
-      <ComposerActionStatus />
+        <ComposerActionStatus />
+      </div>
     </ComposerPrimitive.Root>
   );
 };
