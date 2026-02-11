@@ -10,6 +10,7 @@ import {
 import {
   BranchNavigation,
   ComposerActionStatus,
+  EditComposer,
   MessageActionBar,
   MessageStatus,
   ScrollToBottom,
@@ -72,6 +73,7 @@ const Thread: FC = () => {
           <ThreadPrimitive.Messages
             components={{
               UserMessage,
+              UserEditComposer: EditComposer,
               AssistantMessage,
             }}
           />

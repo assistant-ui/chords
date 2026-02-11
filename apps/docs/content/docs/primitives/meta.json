@@ -8,6 +8,7 @@
     "thread-empty",
     "scroll-to-bottom",
     "branch-navigation",
-    "message-status"
+    "message-status",
+    "edit-composer"
   ]
 }

@@ -43,6 +43,11 @@ const primitives = [
     description: "Loading spinner during streaming, error message on failure.",
     href: "/docs/primitives/message-status",
   },
+  {
+    name: "EditComposer",
+    description: "Inline message editor with cancel and save actions.",
+    href: "/docs/primitives/edit-composer",
+  },
 ];
 
 export default function HomePage() {

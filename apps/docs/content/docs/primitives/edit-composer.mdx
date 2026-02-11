@@ -1,0 +1,101 @@
+---
+title: EditComposer
+description: Inline message editor with cancel and save actions.
+---
+
+## Overview
+
+`EditComposer` provides a styled composer for editing existing messages. It replaces the default message display with an editable text input and shows cancel/save buttons. Simply pass it to `ThreadPrimitive.Messages` as the `UserEditComposer` component.
+
+## Demo
+
+<EditComposerDemo />
+
+## When to use
+
+- Allow users to edit messages they've already sent
+- Provide inline editing without a modal
+- Show edit state automatically when editing is triggered
+- Commonly used with message action bars that have an edit button
+
+## Features
+
+- **Inline editing**: Replaces message with editor when edit mode is active
+- **Auto-disable**: Cancel button disabled when not in edit mode
+- **Save button**: Submit edited message, exits edit mode automatically
+- **Cancel button**: Discard changes and exit edit mode
+- **Customizable**: Override styling, button labels, placeholder text
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | string | - | Root container class |
+| `inputClassName` | string | - | Input field class |
+| `actionsClassName` | string | - | Actions container class |
+| `buttonClassName` | string | - | Cancel/save button class |
+| `inputPlaceholder` | string | `"Edit your message..."` | Input placeholder text |
+| `cancelLabel` | string | `"Cancel"` | Cancel button text |
+| `saveLabel` | string | `"Save"` | Save button text |
+
+## Basic Usage
+
+```tsx
+import { EditComposer } from "@assistant-ui/ux-primitives";
+
+export function MyThread() {
+  return (
+    <ThreadPrimitive.Messages
+      components={{
+        UserMessage,
+        UserEditComposer: EditComposer,
+      }}
+    />
+  );
+}
+```
+
+## Custom Labels
+
+```tsx
+<EditComposer
+  inputPlaceholder="Type your updated message..."
+  cancelLabel="Discard"
+  saveLabel="Update"
+/>
+```
+
+## Custom Styling
+
+```tsx
+<EditComposer
+  className="flex w-full items-center gap-3 rounded-lg bg-blue-500/10 p-3 border border-blue-500/30"
+  inputClassName="flex-1 bg-transparent text-white"
+  buttonClassName="px-3 py-1 rounded text-sm font-medium bg-blue-600 hover:bg-blue-700"
+/>
+```
+
+## Role-Specific Editors
+
+You can provide different editor styles for different message roles:
+
+```tsx
+<ThreadPrimitive.Messages
+  components={{
+    UserMessage,
+    UserEditComposer: UserEditComposer,
+    AssistantMessage,
+    AssistantEditComposer: AssistantEditComposer,
+  }}
+/>
+```
+
+## How It Works
+
+EditComposer is conditionally rendered by `ThreadPrimitive.Messages` when a message is in edit mode. It composes `ComposerPrimitive` components and is automatically shown/hidden based on the `composer.isEditing` state.
+
+When the user clicks an edit action (typically from `MessageActionBar`), the message temporarily hides and EditComposer takes its place. Clicking save submits the edit, clicking cancel exits edit mode.
+
+## Migration Notes
+
+> TODO: migrate to store — `useComposer` → `useAuiState(({ composer }) => composer)`

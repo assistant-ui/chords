@@ -19,6 +19,7 @@ import { ThreadEmptyDemo } from "@/components/demo/thread-empty-demo";
 import { ScrollToBottomDemo } from "@/components/demo/scroll-to-bottom-demo";
 import { BranchNavigationDemo } from "@/components/demo/branch-navigation-demo";
 import { MessageStatusDemo } from "@/components/demo/message-status-demo";
+import { EditComposerDemo } from "@/components/demo/edit-composer-demo";
 
 type Components = Record<string, React.ComponentType<any>>;
 
@@ -45,6 +46,7 @@ export function getMDXComponents(components?: Components): Components {
     ScrollToBottomDemo,
     BranchNavigationDemo,
     MessageStatusDemo,
+    EditComposerDemo,
     blockquote: (props: any) => <Callout>{props.children}</Callout>,
     ...components,
   };
