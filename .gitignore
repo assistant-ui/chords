@@ -7,7 +7,7 @@ dist/
 build/
 .out/
 .next/
-.turbo/
+**/.turbo/
 
 # fumadocs generated
 .source/

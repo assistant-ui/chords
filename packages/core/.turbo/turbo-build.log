@@ -1,4 +1,0 @@
-
-> @assistant-ui/ux-primitives@1.0.0 build /home/shobhit/Desktop/os/ux-primitives/packages/core
-> rm -rf dist && tsc
-
