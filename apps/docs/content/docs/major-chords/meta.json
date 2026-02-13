@@ -1,12 +1,8 @@
 {
-  "title": "Primitives",
+  "title": "Major Chords",
   "pages": [
     "composer-action-status",
-    "copy-button",
     "message-action-bar",
-    "suggestion-chips",
-    "thread-empty",
-    "scroll-to-bottom",
     "branch-navigation",
     "message-status",
     "edit-composer",
