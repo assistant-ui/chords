@@ -1,17 +1,20 @@
 ---
 title: Getting Started
-description: State-aware UX patterns for assistant-ui that eliminate chat UI boilerplate.
+description: State-aware components for assistant-ui that eliminate chat UI boilerplate.
 ---
 
-## What is UX Primitives?
+## What are Chords?
 
-UX Primitives is an opt-in library of **state-aware, drop-in components** built on top of [assistant-ui](https://github.com/assistant-ui/assistant-ui) primitives.
+A chord is a pre-composed component that **reads runtime state and makes rendering decisions for you**. You don't think about conditionals or status checks — the chord handles the wiring, you own the UI.
 
-Each component replaces **20-60 lines** of manual wiring with a single, configurable component — while still giving you full control over styling and behavior.
+- **Major Chord** — Reads runtime state, makes multi-branch rendering decisions (e.g. `ComposerActionStatus` switches send/cancel/disabled based on thread state)
+- **Minor Chord** — Composes 2+ primitives into a pattern every app rebuilds (e.g. `ScrollToBottom` wraps the primitive + icon positioning)
+
+Each chord replaces **20-60 lines** of manual wiring with a single, configurable component — while giving you full control over styling and behavior.
 
 ## Why?
 
-Building a chat UI with assistant-ui primitives gives you maximum flexibility, but common patterns require a lot of boilerplate:
+Building a chat UI with [assistant-ui](https://github.com/assistant-ui/assistant-ui) primitives gives you maximum flexibility, but common patterns require a lot of boilerplate:
 
 - Toggling Send/Cancel buttons based on thread state
 - Showing copy-with-feedback buttons on messages
@@ -19,12 +22,12 @@ Building a chat UI with assistant-ui primitives gives you maximum flexibility, b
 - Rendering suggestion chips on empty threads
 - Managing scroll-to-bottom visibility
 
-UX Primitives handles all of this for you, while keeping the same composability you're used to.
+Chords handle all of this for you, while keeping the same composability you're used to.
 
 ## Quick Example
 
-<Tabs items={["After (UX Primitives)", "Before (Manual)"]}>
-  <Tab value="After (UX Primitives)">
+<Tabs items={["After (Chords)", "Before (Manual)"]}>
+  <Tab value="After (Chords)">
     ```tsx
     import { MessageActionBar } from "@assistant-ui/ux-primitives";
 
@@ -64,7 +67,15 @@ UX Primitives handles all of this for you, while keeping the same composability 
   </Tab>
 </Tabs>
 
+## Design Principles
+
+- **Zero config works** — drop in with no props, get a working component
+- **Full override** — `className` replaces defaults, `renderVisual` swaps icons — no fighting specificity
+- **No lock-in** — mix chords with raw primitives freely in the same tree
+- **Lightweight** — minimal dependencies, no design system opinions
+
 ## Next Steps
 
-- [Installation](/docs/installation) — add UX Primitives to your project
-- [Primitives](/docs/primitives) — browse all available components
+- [Installation](/docs/installation) — add Chords to your project
+- [Major Chords](/docs/major-chords) — state-aware components with multi-branch logic
+- [Minor Chords](/docs/minor-chords) — common primitive compositions

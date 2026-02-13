@@ -1,11 +1,11 @@
 ---
 title: Installation
-description: Add UX Primitives to your assistant-ui project.
+description: Add Chords to your assistant-ui project.
 ---
 
 ## Prerequisites
 
-UX Primitives requires:
+Chords requires:
 - `@assistant-ui/react` >= 0.12.3
 - `react` >= 18
 - Tailwind CSS v4 (for default styling)
@@ -18,7 +18,7 @@ npm install @assistant-ui/ux-primitives
 
 ## Tailwind Setup
 
-UX Primitives ships with default Tailwind classes. For Tailwind to detect these classes, add a `@source` directive to your CSS file pointing at the package's `dist` directory:
+Chords ships with default Tailwind classes. For Tailwind to detect these classes, add a `@source` directive to your CSS file pointing at the package's `dist` directory:
 
 ```css title="app/globals.css"
 @import "tailwindcss";
@@ -42,7 +42,7 @@ import {
 
 ## Styling
 
-Every component ships with sensible default Tailwind classes (dark theme). You can override any class via `className` props:
+Every component ships with sensible default Tailwind classes that support both light and dark themes. You can override any class via `className` props:
 
 ```tsx
 <MessageActionBar
