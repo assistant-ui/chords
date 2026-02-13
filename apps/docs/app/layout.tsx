@@ -5,11 +5,11 @@ import { Provider } from "./provider";
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | UX Primitives",
-    default: "UX Primitives — assistant-ui",
+    template: "%s | Chords",
+    default: "Chords — assistant-ui",
   },
   description:
-    "State-aware UX patterns for assistant-ui. Drop-in components that eliminate chat UI boilerplate.",
+    "State-aware, drop-in components for assistant-ui. Each chord reads runtime state and makes rendering decisions — you own the UI, we handle the wiring.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
