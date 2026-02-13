@@ -9,6 +9,7 @@ import {
 import { ToolCallRenderer } from "@assistant-ui/ux-primitives";
 import { DemoWrapper } from "./demo-wrapper";
 import type { ChatModelAdapter } from "@assistant-ui/react";
+import { FC } from "react";
 
 let callCount = 0;
 
@@ -65,7 +66,9 @@ export function ToolCallRendererDemo() {
   return (
     <DemoWrapper>
       <AssistantRuntimeProvider runtime={runtime}>
-        <ThreadPrimitive.Root className="flex h-[380px] flex-col rounded-xl border border-zinc-800 bg-zinc-950 text-white">
+        {/* <ThreadPrimitive.Root className="flex h-87.5 flex-col rounded-xl border border-zinc-800 bg-zinc-950 text-white">
+         */}
+        <ThreadPrimitive.Root className="flex h-87.5 flex-col rounded-xl border border-zinc-400 dark:border-zinc-800  bg-white text-zinc-900 dark:bg-zinc-950 dark:text-white px-8">
           <div className="relative min-h-0 flex-1">
             <ThreadPrimitive.Viewport className="flex h-full flex-col gap-2 overflow-y-auto px-4 pt-4 pb-4">
               <ThreadPrimitive.Messages
@@ -76,14 +79,14 @@ export function ToolCallRendererDemo() {
               />
             </ThreadPrimitive.Viewport>
           </div>
-          <div className="border-t border-zinc-800 px-4 py-2">
+          <div className="border-t border-zinc-300 dark:border-zinc-800 px-4 py-2">
             <ThreadPrimitive.If running={false}>
               <ThreadPrimitive.Suggestion
                 prompt="What's the weather in Paris?"
                 send
-                className="w-full rounded-lg bg-white/5 px-3 py-2 text-left text-sm text-white/60 hover:bg-white/10 transition-colors"
+                className="w-full rounded-lg dark:bg-white/5 bg-black/10 px-3 py-2 text-left text-sm dark:text-white/60 text-black dark:hover:bg-white/10 hover:bg-black/15 transition-colors"
               >
-                Send a message to trigger the tool call demo →
+                Send a message to trigger the tool call demo
               </ThreadPrimitive.Suggestion>
             </ThreadPrimitive.If>
           </div>
@@ -93,27 +96,29 @@ export function ToolCallRendererDemo() {
   );
 }
 
-function DemoUserMessage() {
+const DemoUserMessage: FC = () => {
   return (
-    <MessagePrimitive.Root className="flex justify-end">
-      <div className="max-w-[70%] rounded-2xl bg-white/10 px-4 py-2 text-sm text-white/90">
+    <MessagePrimitive.Root className="group/message mx-auto flex w-full max-w-3xl flex-col items-end gap-1">
+      <div className="max-w-[80%] rounded-3xl bg-zinc-100 px-5  text-zinc-900 dark:bg-white/10 dark:text-white/90">
         <MessagePrimitive.Content />
       </div>
     </MessagePrimitive.Root>
   );
-}
+};
 
 function DemoAssistantMessage() {
   return (
-    <MessagePrimitive.Root className="flex gap-2">
-      <div className="flex size-6 shrink-0 items-center justify-center rounded-full border border-white/15 text-[10px]">
+    <MessagePrimitive.Root className="group/message mx-auto flex w-full max-w-3xl gap-3 ">
+      <div className="flex mt-2.5 size-8 shrink-0 items-center justify-center rounded-full border border-zinc-300 text-xs shadow dark:border-white/15">
         A
       </div>
-      <div className="flex-1 pt-0.5">
+      <div className="flex-1 pt-0.5 pr-64">
         <MessagePrimitive.Parts
           components={{
             Text: ({ text }) => (
-              <span className="text-sm text-white/90">{text}</span>
+              <span className="text-sm dark:text-white/90 text-black">
+                {text}
+              </span>
             ),
             tools: { Fallback: ToolCallRenderer },
           }}

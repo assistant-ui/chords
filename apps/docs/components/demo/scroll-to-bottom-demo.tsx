@@ -5,26 +5,37 @@ import {
   ComposerPrimitive,
   MessagePrimitive,
 } from "@assistant-ui/react";
-import { ComposerActionStatus, MessageActionBar, ScrollToBottom } from "@assistant-ui/ux-primitives";
+import {
+  BranchNavigation,
+  ComposerActionStatus,
+  MessageActionBar,
+  MessageStatus,
+  ScrollToBottom,
+} from "@assistant-ui/ux-primitives";
 import { DemoWrapper } from "./demo-wrapper";
+import { FC } from "react";
+import { ArrowRightIcon, PaperPlaneIcon } from "@radix-ui/react-icons";
 
-export function ScrollToBottomDemo() {
+export const ScrollToBottomDemo: FC = () => {
   return (
     <DemoWrapper>
-      <ThreadPrimitive.Root className="flex h-[350px] flex-col rounded-xl border border-zinc-800 bg-zinc-950 text-white">
+      <ThreadPrimitive.Root className="flex h-87.5 flex-col rounded-xl border border-zinc-400 dark:border-zinc-800  bg-white text-zinc-900 dark:bg-zinc-950 dark:text-white px-8">
         <div className="relative min-h-0 flex-1">
           <ThreadPrimitive.Viewport className="flex h-full flex-col gap-4 overflow-y-auto px-4 pt-4 pb-4">
             <ThreadPrimitive.Messages
-              components={{ UserMessage: DemoUserMessage, AssistantMessage: DemoAssistantMessage }}
+              components={{
+                UserMessage: DemoUserMessage,
+                AssistantMessage: DemoAssistantMessage,
+              }}
             />
           </ThreadPrimitive.Viewport>
           <ScrollToBottom />
         </div>
-        <div className="border-t border-zinc-800 p-3">
-          <ComposerPrimitive.Root className="flex items-center rounded-2xl bg-white/5 px-2">
+        <div className="border-t border-zinc-200 dark:border-zinc-800 p-3">
+          <ComposerPrimitive.Root className="flex items-center rounded-2xl bg-zinc-100 dark:bg-white/5 px-2">
             <ComposerPrimitive.Input
               placeholder="Send a few messages, then scroll up..."
-              className="h-10 flex-1 resize-none bg-transparent p-3 text-sm text-white outline-none placeholder:text-white/40"
+              className="h-12 max-h-40 flex-1 resize-none p-3.5 text-sm text-zinc-900 outline-none placeholder:text-zinc-400 dark:text-white dark:placeholder:text-white/50"
             />
             <ComposerActionStatus />
           </ComposerPrimitive.Root>
@@ -32,28 +43,85 @@ export function ScrollToBottomDemo() {
       </ThreadPrimitive.Root>
     </DemoWrapper>
   );
-}
+};
 
-function DemoUserMessage() {
+const DemoUserMessage: FC = () => {
   return (
-    <MessagePrimitive.Root className="flex justify-end">
-      <div className="max-w-[70%] rounded-2xl bg-white/10 px-4 py-2 text-sm text-white/90">
+    <MessagePrimitive.Root className="group/message mx-auto flex w-full max-w-3xl flex-col items-end gap-1">
+      <div className="max-w-[80%] rounded-3xl bg-zinc-100 px-5  text-zinc-900 dark:bg-white/10 dark:text-white/90">
         <MessagePrimitive.Content />
       </div>
     </MessagePrimitive.Root>
   );
-}
+};
 
-function DemoAssistantMessage() {
+const DemoAssistantMessage: FC = () => {
   return (
-    <MessagePrimitive.Root className="group/message flex gap-2">
-      <div className="flex size-6 shrink-0 items-center justify-center rounded-full border border-white/15 text-[10px]">A</div>
-      <div className="flex-1">
-        <div className="text-sm text-white/90"><MessagePrimitive.Content /></div>
-        <div className="mt-1 opacity-0 transition-opacity group-hover/message:opacity-100">
+    <MessagePrimitive.Root className="group/message mx-auto flex w-full max-w-3xl gap-3">
+      <div className="flex size-8 shrink-0 items-center justify-center rounded-full border border-zinc-300 text-xs shadow dark:border-white/15">
+        A
+      </div>
+      <div className="flex-1 pt-1">
+        <div className="text-zinc-900 dark:text-white/90">
+          <MessagePrimitive.Parts
+            components={{
+              Text: ({ text }) => <span>{text}</span>,
+            }}
+          />
+        </div>
+        <MessageStatus />
+        <div className="mt-1 flex items-center gap-2 opacity-0 transition-opacity group-hover/message:opacity-100">
           <MessageActionBar actions={["copy", "reload"]} />
+          <BranchNavigation />
         </div>
       </div>
     </MessagePrimitive.Root>
   );
-}
+};
+
+export const CutomizedComposerActionStatusDemo: FC = () => {
+  return (
+    <DemoWrapper>
+      <div className="border dark:border-zinc-800 border-zinc-400 bg-white dark:bg-zinc-900 rounded-xl">
+        <div className=" border-zinc-200 dark:border-zinc-800 p-3">
+          <ComposerPrimitive.Root className="flex items-center rounded-2xl bg-zinc-100 dark:bg-white/5 px-2">
+            <ComposerPrimitive.Input
+              placeholder="Type to see the button change..."
+              className="h-12 max-h-40 flex-1 resize-none p-3.5 text-sm text-zinc-900 outline-none placeholder:text-zinc-400 dark:text-white dark:placeholder:text-white/50"
+            />
+            <ComposerActionStatus
+              idleButtonClassName="flex size-8 rounded-lg items-center justify-center bg-orange-400/20 text-white/40"
+              buttonClassName="flex size-8 rounded-lg items-center justify-center bg-orange-400 text-white"
+            />
+          </ComposerPrimitive.Root>
+        </div>
+        <div className="border-t border-zinc-200 dark:border-zinc-800 p-3">
+          <ComposerPrimitive.Root className="flex items-center rounded-2xl bg-zinc-100 dark:bg-white/5 px-2">
+            <ComposerPrimitive.Input
+              placeholder="Type to see the button change..."
+              className="h-12 max-h-40 flex-1 resize-none p-3.5 text-sm text-zinc-900 outline-none placeholder:text-zinc-400 dark:text-white dark:placeholder:text-white/50"
+            />
+            <ComposerActionStatus
+              idleButtonClassName="flex size-8 rounded-full items-center justify-center bg-cyan-400/20 text-black/40"
+              buttonClassName="flex size-8 rounded-full items-center justify-center bg-cyan-400 text-black"
+              renderVisual={() => <ArrowRightIcon />}
+            />
+          </ComposerPrimitive.Root>
+        </div>
+        <div className="border-t border-zinc-200 dark:border-zinc-800 p-3">
+          <ComposerPrimitive.Root className="flex items-center rounded-2xl bg-zinc-100 dark:bg-white/5 px-2">
+            <ComposerPrimitive.Input
+              placeholder="Type to see the button change..."
+              className="h-12 max-h-40 flex-1 resize-none p-3.5 text-sm text-zinc-900 outline-none placeholder:text-zinc-400 dark:text-white dark:placeholder:text-white/50"
+            />
+            <ComposerActionStatus
+              idleButtonClassName="flex size-8 rounded-full items-center justify-center dark:text-white/40 text-black/40"
+              buttonClassName="flex size-8 rounded-full items-center justify-center dark:text-white text-black"
+              renderVisual={() => <PaperPlaneIcon />}
+            />
+          </ComposerPrimitive.Root>
+        </div>
+      </div>
+    </DemoWrapper>
+  );
+};

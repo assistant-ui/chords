@@ -17,11 +17,12 @@ Send a message, then hover over either message to see the action bars. The assis
   <Tab value="After">
     ```tsx
     {/* Assistant message */}
-    <MessageActionBar actions={["copy", "reload"]} />
+    <MessageActionBar actions={["copy", "reload", "edit", "speak"]} />
 
     {/* User message */}
     <MessageActionBar actions={["edit"]} />
     ```
+
   </Tab>
   <Tab value="Before">
     ```tsx
@@ -48,12 +49,12 @@ Send a message, then hover over either message to see the action bars. The assis
 
 ## Available Actions
 
-| Action | Description | Typical Use |
-|--------|-------------|-------------|
-| `"copy"` | Copy message to clipboard with icon toggle | Assistant messages |
-| `"reload"` | Regenerate the assistant response | Assistant messages |
-| `"edit"` | Edit a user message | User messages |
-| `"speak"` | Read the message aloud | Assistant messages |
+| Action     | Description                                | Typical Use        |
+| ---------- | ------------------------------------------ | ------------------ |
+| `"copy"`   | Copy message to clipboard with icon toggle | Assistant messages |
+| `"reload"` | Regenerate the assistant response          | Assistant messages |
+| `"edit"`   | Edit a user message                        | User messages      |
+| `"speak"`  | Read the message aloud                     | Assistant messages |
 
 ## Props
 
@@ -78,7 +79,8 @@ Send a message, then hover over either message to see the action bars. The assis
     },
     copyIconClassName: {
       type: "string",
-      description: "Class specifically for the copy icon (overrides iconClassName for the copy action).",
+      description:
+        "Class specifically for the copy icon (overrides iconClassName for the copy action).",
     },
     hideWhenRunning: {
       type: "boolean",
