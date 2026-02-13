@@ -9,6 +9,9 @@ build/
 .next/
 .turbo/
 
+# fumadocs generated
+.source/
+
 # logs
 npm-debug.log*
 pnpm-debug.log*
