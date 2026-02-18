@@ -5,7 +5,7 @@
 @source "../node_modules/@assistant-ui/ux-primitives/dist";
 
 /* Align Fumadocs background with landing page palette */
-@theme {
+:root {
   --color-fd-background: #FAF9F6;
 }
 
@@ -14,6 +14,7 @@
 }
 
 /* Match sidebar bg to page background without affecting card components */
-#nd-sidebar {
+:root #nd-sidebar,
+.dark #nd-sidebar {
   --color-fd-card: var(--color-fd-background);
 }
