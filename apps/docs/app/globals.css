@@ -3,3 +3,17 @@
 @import "fumadocs-ui/css/preset.css";
 @import "../node_modules/tw-shimmer/src/index.css";
 @source "../node_modules/@assistant-ui/ux-primitives/dist";
+
+/* Align Fumadocs background with landing page palette */
+@theme {
+  --color-fd-background: #FAF9F6;
+}
+
+.dark {
+  --color-fd-background: #0A0A0A;
+}
+
+/* Match sidebar bg to page background without affecting card components */
+#nd-sidebar {
+  --color-fd-card: var(--color-fd-background);
+}
