@@ -71,7 +71,7 @@ const minorChords = [
 
 export default function HomePage() {
   return (
-    <main className="flex flex-1 flex-col items-center justify-center px-4 py-16">
+    <main className="flex flex-1 flex-col items-center justify-center px-4 pt-8 pb-16 bg-fd-background">
       <div className="mx-auto max-w-3xl text-center">
         <h1
           className="text-4xl font-bold tracking-tight sm:text-5xl"
