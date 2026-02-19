@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { GitHubLogoIcon, SunIcon, MoonIcon } from "@radix-ui/react-icons";
+import { ChordsLogo } from "./chords-logo";
 
 export function Navbar() {
   const { resolvedTheme, setTheme } = useTheme();
@@ -29,10 +30,9 @@ export function Navbar() {
       <div className="relative flex h-14 items-center justify-between mx-auto max-w-4xl sm:px-6">
         <Link
           href="/"
-          className="text-base font-bold italic text-fd-foreground"
-          style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}
+          className="text-fd-foreground"
         >
-          <span className="shimmer">Chords</span>
+          <ChordsLogo size="sm" className="shimmer" />
         </Link>
 
         <div className="flex items-center gap-1 sm:gap-4">
