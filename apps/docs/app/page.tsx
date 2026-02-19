@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ChordsLogoAnimated } from "./components/chords-logo";
 
 const majorChords = [
   {
@@ -73,11 +74,8 @@ export default function HomePage() {
   return (
     <main className="flex flex-1 flex-col items-center justify-center px-4 pt-8 pb-16 bg-fd-background">
       <div className="mx-auto max-w-3xl text-center">
-        <h1
-          className="text-4xl font-bold tracking-tight sm:text-5xl"
-          style={{ fontFamily: "'Georgia', 'Times New Roman', cursive" }}
-        >
-          <span className="shimmer italic">Chords</span>
+        <h1 className="flex justify-center">
+          <ChordsLogoAnimated className="shimmer" />
         </h1>
         <p className="mt-4 text-lg text-fd-muted-foreground leading-relaxed">
           You own the UI. We handle the wiring.
