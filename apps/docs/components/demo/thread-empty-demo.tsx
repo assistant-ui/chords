@@ -1,7 +1,7 @@
 "use client";
 
 import { ThreadPrimitive } from "@assistant-ui/react";
-import { ThreadEmpty } from "@assistant-ui/ux-primitives";
+import { ThreadEmpty } from "@assistant-ui/chords";
 import { DemoWrapper } from "./demo-wrapper";
 
 export function ThreadEmptyDemo() {

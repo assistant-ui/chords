@@ -8,7 +8,7 @@ import {
 import {
   ComposerActionStatus,
   MessageActionBar,
-} from "@assistant-ui/ux-primitives";
+} from "@assistant-ui/chords";
 import { DemoWrapper } from "./demo-wrapper";
 import { FC } from "react";
 

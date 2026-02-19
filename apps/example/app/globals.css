@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@source "../node_modules/@assistant-ui/ux-primitives/dist";
+@source "../node_modules/@assistant-ui/chords/dist";
 
 @custom-variant dark (&:where(.dark, .dark *));
 

@@ -6,7 +6,7 @@ import {
   ThreadPrimitive,
   useLocalRuntime,
 } from "@assistant-ui/react";
-import { ToolCallRenderer } from "@assistant-ui/ux-primitives";
+import { ToolCallRenderer } from "@assistant-ui/chords";
 import { DemoWrapper } from "./demo-wrapper";
 import type { ChatModelAdapter } from "@assistant-ui/react";
 import { FC } from "react";

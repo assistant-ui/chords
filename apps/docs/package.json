@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@assistant-ui/react": "0.12.3",
-    "@assistant-ui/ux-primitives": "workspace:*",
+    "@assistant-ui/chords": "workspace:*",
     "@radix-ui/react-icons": "^1.3.2",
     "fumadocs-core": "^16.5.0",
     "fumadocs-mdx": "^14.2.6",
