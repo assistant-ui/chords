@@ -2,7 +2,7 @@
 @import "fumadocs-ui/css/neutral.css";
 @import "fumadocs-ui/css/preset.css";
 @import "../node_modules/tw-shimmer/src/index.css";
-@source "../node_modules/@assistant-ui/ux-primitives/dist";
+@source "../node_modules/@assistant-ui/chords/dist";
 
 /* Align Fumadocs background with landing page palette */
 :root {

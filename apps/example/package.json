@@ -12,7 +12,7 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "@assistant-ui/react": "0.12.3",
-    "@assistant-ui/ux-primitives": "workspace:*",
+    "@assistant-ui/chords": "workspace:*",
     "@assistant-ui/styles": "^0.1.4",
     "clsx": "^2.1.1",
     "tailwind-merge": "^3.4.0"

@@ -22,7 +22,7 @@ import {
   ScrollToBottom,
   ThreadEmpty,
   ToolCallRenderer,
-} from "@assistant-ui/ux-primitives";
+} from "@assistant-ui/chords";
 import { mockModelAdapter } from "../lib/mock-model-adapter";
 import type { FC } from "react";
 

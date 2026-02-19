@@ -43,7 +43,7 @@ export function Navbar() {
             Docs
           </Link>
           <a
-            href="https://github.com/assistant-ui/ux-primitives/tree/main/apps/example"
+            href="https://github.com/assistant-ui/chords/tree/main/apps/example"
             className="hidden text-sm text-fd-muted-foreground transition-colors hover:text-fd-foreground sm:block"
             target="_blank"
             rel="noopener noreferrer"
@@ -59,7 +59,7 @@ export function Navbar() {
             assistant-ui
           </a>
           <a
-            href="https://github.com/assistant-ui/ux-primitives"
+            href="https://github.com/assistant-ui/chords"
             className="p-1 text-fd-muted-foreground transition-colors hover:text-fd-foreground"
             target="_blank"
             rel="noopener noreferrer"

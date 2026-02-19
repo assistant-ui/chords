@@ -10,7 +10,7 @@ import {
   ComposerActionStatus,
   MessageActionBar,
   MessageStatus,
-} from "@assistant-ui/ux-primitives";
+} from "@assistant-ui/chords";
 import { DemoWrapper } from "./demo-wrapper";
 import { FC } from "react";
 import { ArrowRightIcon, PaperPlaneIcon } from "@radix-ui/react-icons";
