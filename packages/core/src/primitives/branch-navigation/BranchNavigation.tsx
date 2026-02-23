@@ -1,6 +1,6 @@
 "use client";
 
-import { BranchPickerPrimitive, useMessage } from "@assistant-ui/react";
+import { BranchPickerPrimitive, useAuiState } from "@assistant-ui/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 import {
   DEFAULT_BUTTON_CLASSNAME,
@@ -42,11 +42,8 @@ export function BranchNavigation({
   hideWhenSingleBranch?: boolean;
   renderCounter?: (current: number, total: number) => React.ReactNode;
 } = {}) {
-  // TODO: migrate to store — useMessage to  useAuiState(({ message }) => message)
-  const message = useMessage();
-
-  const branchCount = message.branchCount ?? 1;
-  const branchNumber = message.branchNumber ?? 1;
+  const branchCount = useAuiState((s) => s.message.branchCount ?? 1);
+  const branchNumber = useAuiState((s) => s.message.branchNumber ?? 1);
 
   // Hide when single branch (if enabled)
   if (hideWhenSingleBranch && branchCount <= 1) {

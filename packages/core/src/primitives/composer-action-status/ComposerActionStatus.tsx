@@ -9,7 +9,7 @@ import {
   ComposerActionState,
   deriveComposerActionState,
 } from "./deriveComposerActionState";
-import { ComposerPrimitive, useComposer, useThread } from "@assistant-ui/react";
+import { ComposerPrimitive, useAuiState } from "@assistant-ui/react";
 
 export function ComposerActionStatus({
   /**
@@ -36,16 +36,13 @@ export function ComposerActionStatus({
   idleButtonClassName?: string;
   renderVisual?: (state: ComposerActionState) => React.ReactNode;
 }) {
-  // TODO: migrate to store — useThread to useAuiState(({ thread }) => thread)
-  const thread = useThread();
-  // TODO: migrate to store — useComposer to useAuiState(({ composer }) => composer)
-  const composer = useComposer();
-
-  const state = deriveComposerActionState({
-    isRunning: thread.isRunning,
-    isEditing: composer.isEditing,
-    isEmpty: composer.isEmpty,
-  });
+  const state = useAuiState((s) =>
+    deriveComposerActionState({
+      isRunning: s.thread.isRunning,
+      isEditing: s.composer.isEditing,
+      isEmpty: s.composer.isEmpty,
+    })
+  );
 
   const visual = renderVisual ? (
     renderVisual(state)

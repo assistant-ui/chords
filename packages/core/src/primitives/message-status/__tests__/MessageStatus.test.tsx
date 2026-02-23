@@ -2,14 +2,21 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 
 vi.mock("@assistant-ui/react", () => ({
-  useMessage: vi.fn(),
+  useAuiState: vi.fn(),
 }));
 
 import { MessageStatus } from "../MessageStatus";
-import { useMessage } from "@assistant-ui/react";
+import { useAuiState } from "@assistant-ui/react";
 import { DEFAULT_CONTAINER_CLASSNAME } from "../defaults";
 
-const mockMessage = useMessage as ReturnType<typeof vi.fn>;
+const mockUseAuiState = useAuiState as ReturnType<typeof vi.fn>;
+
+function setMockState(message: { status?: any }) {
+  const state = { message };
+  mockUseAuiState.mockImplementation((selector: (s: any) => any) =>
+    selector(state),
+  );
+}
 
 describe("MessageStatus", () => {
   beforeEach(() => {
@@ -17,29 +24,25 @@ describe("MessageStatus", () => {
   });
 
   it("returns null for complete messages", () => {
-    mockMessage.mockReturnValue({
-      status: { type: "complete" },
-    });
+    setMockState({ status: { type: "complete" } });
     const { container } = render(<MessageStatus />);
     expect(container.innerHTML).toBe("");
   });
 
   it("returns null when status is undefined", () => {
-    mockMessage.mockReturnValue({});
+    setMockState({});
     const { container } = render(<MessageStatus />);
     expect(container.innerHTML).toBe("");
   });
 
   it("renders for running state", () => {
-    mockMessage.mockReturnValue({
-      status: { type: "running" },
-    });
+    setMockState({ status: { type: "running" } });
     const { container } = render(<MessageStatus />);
     expect(container.innerHTML).not.toBe("");
   });
 
   it("renders for error state", () => {
-    mockMessage.mockReturnValue({
+    setMockState({
       status: { type: "incomplete", reason: "error", error: "Something failed" },
     });
     const { container } = render(<MessageStatus />);
@@ -47,9 +50,7 @@ describe("MessageStatus", () => {
   });
 
   it("uses default container class", () => {
-    mockMessage.mockReturnValue({
-      status: { type: "running" },
-    });
+    setMockState({ status: { type: "running" } });
     const { container } = render(<MessageStatus />);
     expect(container.firstChild).toHaveClass(
       ...DEFAULT_CONTAINER_CLASSNAME.split(" "),
@@ -57,9 +58,7 @@ describe("MessageStatus", () => {
   });
 
   it("uses custom className", () => {
-    mockMessage.mockReturnValue({
-      status: { type: "running" },
-    });
+    setMockState({ status: { type: "running" } });
     const { container } = render(<MessageStatus className="custom-class" />);
     expect(container.firstChild).toHaveClass("custom-class");
   });
@@ -70,7 +69,7 @@ describe("MessageStatus", () => {
         {state}-{String(error)}
       </span>
     ));
-    mockMessage.mockReturnValue({
+    setMockState({
       status: { type: "incomplete", reason: "error", error: "test error" },
     });
     render(<MessageStatus renderVisual={renderVisual} />);

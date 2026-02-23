@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 
 vi.mock("@assistant-ui/react", () => ({
-  useComposer: vi.fn(),
+  useAuiState: vi.fn(),
   ComposerPrimitive: {
     Root: ({ children, className }: any) => (
       <div data-testid="composer-root" className={className}>
@@ -30,14 +30,26 @@ vi.mock("@assistant-ui/react", () => ({
 }));
 
 import { EditComposer } from "../EditComposer";
-import { useComposer } from "@assistant-ui/react";
+import { useAuiState } from "@assistant-ui/react";
 
-const mockComposer = useComposer as ReturnType<typeof vi.fn>;
+const mockUseAuiState = useAuiState as ReturnType<typeof vi.fn>;
+
+function setMockState(overrides: { canCancel?: boolean; isEmpty?: boolean }) {
+  const state = {
+    composer: {
+      canCancel: overrides.canCancel ?? true,
+      isEmpty: overrides.isEmpty ?? false,
+    },
+  };
+  mockUseAuiState.mockImplementation((selector: (s: any) => any) =>
+    selector(state),
+  );
+}
 
 describe("EditComposer", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mockComposer.mockReturnValue({ canCancel: true, isEmpty: false });
+    setMockState({ canCancel: true, isEmpty: false });
   });
 
   it("renders input with default placeholder", () => {
@@ -69,13 +81,13 @@ describe("EditComposer", () => {
   });
 
   it("disables cancel when canCancel is false", () => {
-    mockComposer.mockReturnValue({ canCancel: false, isEmpty: false });
+    setMockState({ canCancel: false, isEmpty: false });
     render(<EditComposer />);
     expect(screen.getByTestId("cancel")).toBeDisabled();
   });
 
   it("disables send when isEmpty is true", () => {
-    mockComposer.mockReturnValue({ canCancel: true, isEmpty: true });
+    setMockState({ canCancel: true, isEmpty: true });
     render(<EditComposer />);
     expect(screen.getByTestId("send")).toBeDisabled();
   });

@@ -1,6 +1,6 @@
 "use client";
 
-import { ThreadPrimitive, useThread } from "@assistant-ui/react";
+import { ThreadPrimitive, useAuiState } from "@assistant-ui/react";
 import {
   DEFAULT_CONTAINER_CLASSNAME,
   DEFAULT_CHIP_CLASSNAME,
@@ -31,12 +31,10 @@ export function FollowUpSuggestions({
   autoSend?: boolean;
   renderChip?: (prompt: string, index: number) => React.ReactNode;
 } = {}) {
-  // TODO: migrate to store — useThread to useAuiState(({ thread }) => thread)
-  const thread = useThread();
+  const suggestions = useAuiState((s) => s.thread.suggestions);
+  const isRunning = useAuiState((s) => s.thread.isRunning);
 
-  const suggestions = thread.suggestions;
-
-  if (!suggestions?.length || thread.isRunning) return null;
+  if (!suggestions?.length || isRunning) return null;
 
   return (
     <div className={className ?? DEFAULT_CONTAINER_CLASSNAME}>
