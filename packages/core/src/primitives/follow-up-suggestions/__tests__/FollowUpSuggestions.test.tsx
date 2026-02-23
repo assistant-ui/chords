@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 
 vi.mock("@assistant-ui/react", () => ({
-  useThread: vi.fn(),
+  useAuiState: vi.fn(),
   ThreadPrimitive: {
     Suggestion: ({ children, prompt, className }: any) => (
       <button data-testid={`suggestion-${prompt}`} className={className}>
@@ -13,9 +13,19 @@ vi.mock("@assistant-ui/react", () => ({
 }));
 
 import { FollowUpSuggestions } from "../FollowUpSuggestions";
-import { useThread } from "@assistant-ui/react";
+import { useAuiState } from "@assistant-ui/react";
 
-const mockThread = useThread as ReturnType<typeof vi.fn>;
+const mockUseAuiState = useAuiState as ReturnType<typeof vi.fn>;
+
+function setMockState(thread: {
+  suggestions?: any[];
+  isRunning?: boolean;
+}) {
+  const state = { thread };
+  mockUseAuiState.mockImplementation((selector: (s: any) => any) =>
+    selector(state),
+  );
+}
 
 describe("FollowUpSuggestions", () => {
   beforeEach(() => {
@@ -23,19 +33,19 @@ describe("FollowUpSuggestions", () => {
   });
 
   it("returns null when no suggestions", () => {
-    mockThread.mockReturnValue({ suggestions: [], isRunning: false });
+    setMockState({ suggestions: [], isRunning: false });
     const { container } = render(<FollowUpSuggestions />);
     expect(container.innerHTML).toBe("");
   });
 
   it("returns null when suggestions is undefined", () => {
-    mockThread.mockReturnValue({ isRunning: false });
+    setMockState({ isRunning: false });
     const { container } = render(<FollowUpSuggestions />);
     expect(container.innerHTML).toBe("");
   });
 
   it("returns null when thread is running", () => {
-    mockThread.mockReturnValue({
+    setMockState({
       suggestions: [{ prompt: "Hello" }],
       isRunning: true,
     });
@@ -44,7 +54,7 @@ describe("FollowUpSuggestions", () => {
   });
 
   it("renders suggestions when available and not running", () => {
-    mockThread.mockReturnValue({
+    setMockState({
       suggestions: [{ prompt: "Tell me more" }, { prompt: "Give an example" }],
       isRunning: false,
     });
@@ -54,7 +64,7 @@ describe("FollowUpSuggestions", () => {
   });
 
   it("uses custom className", () => {
-    mockThread.mockReturnValue({
+    setMockState({
       suggestions: [{ prompt: "Test" }],
       isRunning: false,
     });
@@ -65,7 +75,7 @@ describe("FollowUpSuggestions", () => {
   });
 
   it("uses custom renderChip", () => {
-    mockThread.mockReturnValue({
+    setMockState({
       suggestions: [{ prompt: "Test prompt" }],
       isRunning: false,
     });

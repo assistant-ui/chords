@@ -1,6 +1,6 @@
 "use client";
 
-import { ComposerPrimitive, useComposer } from "@assistant-ui/react";
+import { ComposerPrimitive, useAuiState } from "@assistant-ui/react";
 import {
   DEFAULT_ROOT_CLASSNAME,
   DEFAULT_INPUT_CLASSNAME,
@@ -46,8 +46,8 @@ export function EditComposer({
   cancelLabel?: string;
   saveLabel?: string;
 } = {}) {
-  // TODO: migrate to store — useComposer to useAuiState(({ composer }) => composer)
-  const composer = useComposer();
+  const canCancel = useAuiState((s) => s.composer.canCancel);
+  const isEmpty = useAuiState((s) => s.composer.isEmpty);
 
   return (
     <ComposerPrimitive.Root className={className ?? DEFAULT_ROOT_CLASSNAME}>
@@ -58,13 +58,13 @@ export function EditComposer({
       <div className={actionsClassName ?? DEFAULT_ACTIONS_CLASSNAME}>
         <ComposerPrimitive.Cancel
           className={buttonClassName ?? DEFAULT_BUTTON_CLASSNAME}
-          disabled={!composer.canCancel}
+          disabled={!canCancel}
         >
           {cancelLabel}
         </ComposerPrimitive.Cancel>
         <ComposerPrimitive.Send
           className={buttonClassName ?? DEFAULT_BUTTON_CLASSNAME}
-          disabled={composer.isEmpty}
+          disabled={isEmpty}
         >
           {saveLabel}
         </ComposerPrimitive.Send>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMessage } from "@assistant-ui/react";
+import { useAuiState } from "@assistant-ui/react";
 import {
   type MessageStatusState,
   deriveMessageStatusState,
@@ -40,14 +40,13 @@ export function MessageStatus({
     error?: unknown,
   ) => React.ReactNode;
 }) {
-  // TODO: migrate to store — useMessage to useAuiState(({ message }) => message)
-  const message = useMessage();
+  const status = useAuiState((s) => s.message.status);
 
   const state = deriveMessageStatusState({
-    statusType: message.status?.type ?? "complete",
+    statusType: status?.type ?? "complete",
     statusReason:
-      message.status?.type === "incomplete"
-        ? message.status.reason
+      status?.type === "incomplete"
+        ? status.reason
         : undefined,
   });
 
@@ -55,7 +54,7 @@ export function MessageStatus({
   if (state === "complete") return null;
 
   const error =
-    message.status?.type === "incomplete" ? message.status.error : undefined;
+    status?.type === "incomplete" ? status.error : undefined;
 
   const visual = renderVisual ? (
     renderVisual(state, error)

@@ -2,8 +2,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 
 vi.mock("@assistant-ui/react", () => ({
-  useThread: vi.fn(),
-  useComposer: vi.fn(),
+  useAuiState: vi.fn(),
   ComposerPrimitive: {
     Send: ({ children, className }: any) => (
       <button data-testid="send" className={className}>
@@ -19,27 +18,29 @@ vi.mock("@assistant-ui/react", () => ({
 }));
 
 import { ComposerActionStatus } from "../ComposerActionStatus";
-import { useThread, useComposer } from "@assistant-ui/react";
+import { useAuiState } from "@assistant-ui/react";
 import {
   DEFAULT_BUTTON_CLASSNAME,
   DEFAULT_IDLE_BUTTON_CLASSNAME,
 } from "../defaults";
 
-const mockThread = useThread as ReturnType<typeof vi.fn>;
-const mockComposer = useComposer as ReturnType<typeof vi.fn>;
+const mockUseAuiState = useAuiState as ReturnType<typeof vi.fn>;
 
 function setMockState(overrides: {
   isRunning?: boolean;
   isEditing?: boolean;
   isEmpty?: boolean;
 }) {
-  mockThread.mockReturnValue({
-    isRunning: overrides.isRunning ?? false,
-  });
-  mockComposer.mockReturnValue({
-    isEditing: overrides.isEditing ?? false,
-    isEmpty: overrides.isEmpty ?? true,
-  });
+  const state = {
+    thread: { isRunning: overrides.isRunning ?? false },
+    composer: {
+      isEditing: overrides.isEditing ?? false,
+      isEmpty: overrides.isEmpty ?? true,
+    },
+  };
+  mockUseAuiState.mockImplementation((selector: (s: any) => any) =>
+    selector(state),
+  );
 }
 
 describe("ComposerActionStatus", () => {
