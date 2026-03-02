@@ -48,6 +48,14 @@
   --shimmer-color: #FFD700;
 }
 
+/* Hidden scrollbar for playground sidebar — still scrollable */
+.playground-scroll {
+  scrollbar-width: none;
+}
+.playground-scroll::-webkit-scrollbar {
+  display: none;
+}
+
 /* Match sidebar bg to page background without affecting card components */
 :root #nd-sidebar,
 .dark #nd-sidebar {

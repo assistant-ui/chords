@@ -9,6 +9,9 @@ import { ChordsLogo } from "./chords-logo";
 export function Navbar() {
   const { resolvedTheme, setTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -42,6 +45,12 @@ export function Navbar() {
           >
             Docs
           </Link>
+          <Link
+            href="/playground"
+            className="text-sm text-fd-muted-foreground transition-colors hover:text-fd-foreground"
+          >
+            Playground
+          </Link>
           <a
             href="https://github.com/assistant-ui/chords/tree/main/apps/example"
             className="hidden text-sm text-fd-muted-foreground transition-colors hover:text-fd-foreground sm:block"
@@ -74,10 +83,14 @@ export function Navbar() {
             className="p-1 text-fd-muted-foreground transition-colors hover:text-fd-foreground"
             aria-label="Toggle theme"
           >
-            {resolvedTheme === "dark" ? (
-              <SunIcon className="h-4 w-4" />
+            {mounted ? (
+              resolvedTheme === "dark" ? (
+                <SunIcon className="h-4 w-4" />
+              ) : (
+                <MoonIcon className="h-4 w-4" />
+              )
             ) : (
-              <MoonIcon className="h-4 w-4" />
+              <span className="inline-block h-4 w-4" />
             )}
           </button>
         </div>
