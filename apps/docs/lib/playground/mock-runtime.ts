@@ -6,9 +6,8 @@ const RESPONSES = [
   "Try interacting with the chord in this preview. Send a few messages, hover over them, and explore the different states!",
 ];
 
-let responseIndex = 0;
-
 export function createPlaygroundAdapter(): ChatModelAdapter {
+  let responseIndex = 0;
   return {
     async *run({ abortSignal }) {
       const text = RESPONSES[responseIndex % RESPONSES.length]!;
