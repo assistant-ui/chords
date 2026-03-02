@@ -45,9 +45,13 @@ export function PreviewPanel({ chordId, config }: PreviewPanelProps) {
   const code = useMemo(() => generateCode(chordId, config), [chordId, config]);
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(code);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Clipboard API unavailable (e.g. non-secure context)
+    }
   };
 
   return (
