@@ -2,24 +2,34 @@
 
 import { ThreadPrimitive, ComposerPrimitive, MessagePrimitive } from "@assistant-ui/react";
 import {
+  Attachment,
   ComposerActionStatus,
   ComposerAddAttachment,
-  ComposerAttachments,
-  MessageAttachments,
   MessageActionBar,
   MessageStatus,
 } from "@assistant-ui/chords";
 import type { ChordConfig } from "@/lib/playground/types";
 import { PlaygroundRuntime, PreviewThread, PreviewViewport } from "./preview-wrapper";
 
-const UserMessage = () => (
-  <MessagePrimitive.Root className="mx-auto flex w-full max-w-3xl flex-col items-end gap-1">
-    <MessageAttachments />
-    <div className="max-w-[80%] rounded-3xl bg-zinc-100 px-5 text-zinc-900 dark:bg-white/10 dark:text-white/90">
-      <MessagePrimitive.Content />
-    </div>
-  </MessagePrimitive.Root>
-);
+function UserMessageWithAttachments({ config }: { config: ChordConfig }) {
+  const CustomAttachment = () => (
+    <Attachment
+      className={(config.className as string) || undefined}
+      removeClassName={(config.removeClassName as string) || undefined}
+    />
+  );
+
+  return (
+    <MessagePrimitive.Root className="mx-auto flex w-full max-w-3xl flex-col items-end gap-1">
+      <div className="flex flex-wrap gap-2">
+        <MessagePrimitive.Attachments components={{ Attachment: CustomAttachment }} />
+      </div>
+      <div className="max-w-[80%] rounded-3xl bg-zinc-100 px-5 text-zinc-900 dark:bg-white/10 dark:text-white/90">
+        <MessagePrimitive.Content />
+      </div>
+    </MessagePrimitive.Root>
+  );
+}
 
 const AssistantMessage = () => (
   <MessagePrimitive.Root className="group/message mx-auto flex w-full max-w-3xl gap-3">
@@ -39,21 +49,33 @@ const AssistantMessage = () => (
 );
 
 export function AttachmentPreview({
-  config: _config,
+  config,
 }: {
   config: ChordConfig;
 }) {
+  const CustomAttachment = () => (
+    <Attachment
+      className={(config.className as string) || undefined}
+      removeClassName={(config.removeClassName as string) || undefined}
+    />
+  );
+
   return (
     <PlaygroundRuntime>
       <PreviewThread>
         <PreviewViewport>
           <ThreadPrimitive.Messages
-            components={{ UserMessage, AssistantMessage }}
+            components={{
+              UserMessage: () => <UserMessageWithAttachments config={config} />,
+              AssistantMessage,
+            }}
           />
         </PreviewViewport>
         <div className="border-t border-zinc-200 dark:border-zinc-800 p-3">
           <ComposerPrimitive.Root className="flex flex-col rounded-2xl bg-zinc-100 dark:bg-white/5 px-2">
-            <ComposerAttachments />
+            <div className="flex flex-wrap gap-2 pt-2">
+              <ComposerPrimitive.Attachments components={{ Attachment: CustomAttachment }} />
+            </div>
             <div className="flex items-center">
               <ComposerAddAttachment />
               <ComposerPrimitive.Input
