@@ -28,10 +28,13 @@ const AssistantMessage = () => (
 );
 
 export function ScrollToBottomPreview({
-  config: _config,
+  config,
 }: {
   config: ChordConfig;
 }) {
+  const props: Record<string, unknown> = {};
+  if (config.className) props.className = config.className;
+  if (config.iconClassName) props.iconClassName = config.iconClassName;
   return (
     <PlaygroundRuntime>
       <ThreadPrimitive.Root className="flex h-80 flex-col rounded-xl border border-zinc-300 dark:border-zinc-800 bg-white dark:bg-zinc-950 text-zinc-900 dark:text-white">
@@ -41,7 +44,7 @@ export function ScrollToBottomPreview({
               components={{ UserMessage, AssistantMessage }}
             />
           </ThreadPrimitive.Viewport>
-          <ScrollToBottom />
+          <ScrollToBottom {...props} />
         </div>
         <div className="border-t border-zinc-200 dark:border-zinc-800 p-3">
           <ComposerPrimitive.Root className="flex items-center rounded-2xl bg-zinc-100 dark:bg-white/5 px-2">
