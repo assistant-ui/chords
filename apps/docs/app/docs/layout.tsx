@@ -7,7 +7,7 @@ export default function Layout({ children }: { children: ReactNode }) {
     <DocsLayout
       tree={source.pageTree}
       nav={{
-        enabled: false,
+        title: "Chords",
       }}
       sidebar={{
         defaultOpenLevel: 2,
