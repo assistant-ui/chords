@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { ShikiHighlighter } from "react-shiki";
 import type { ChordId, ChordConfig } from "@/lib/playground/types";
 import { generateCode } from "./code-generators/generate-code";
 import { ComposerActionStatusPreview } from "./previews/composer-action-status-preview";
@@ -98,11 +99,15 @@ export function PreviewPanel({ chordId, config }: PreviewPanelProps) {
             <Preview config={config} />
           </div>
         ) : (
-          <pre className="p-4 text-sm">
-            <code className="text-fd-foreground whitespace-pre-wrap wrap-break-word">
-              {code}
-            </code>
-          </pre>
+          <ShikiHighlighter
+            language="tsx"
+            theme={{ light: "github-light", dark: "github-dark" }}
+            defaultColor="light-dark()"
+            showLanguage={false}
+            className="!bg-transparent !p-4 !text-sm [&_code]:whitespace-pre-wrap [&_code]:break-words"
+          >
+            {code}
+          </ShikiHighlighter>
         )}
       </div>
     </div>
