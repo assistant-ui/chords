@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { ShikiHighlighter } from "react-shiki";
 import type { ChordId, ChordConfig } from "@/lib/playground/types";
 import { generateCode } from "./code-generators/generate-code";
@@ -39,11 +39,44 @@ const previewMap: Record<ChordId, React.FC<{ config: ChordConfig }>> = {
 
 type Tab = "preview" | "code";
 
+const tabs: { key: Tab; label: string }[] = [
+  { key: "preview", label: "Preview" },
+  { key: "code", label: "Code" },
+];
+
 export function PreviewPanel({ chordId, config }: PreviewPanelProps) {
   const [tab, setTab] = useState<Tab>("preview");
   const [copied, setCopied] = useState(false);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [hoverStyle, setHoverStyle] = useState<React.CSSProperties>({});
+  const [activeStyle, setActiveStyle] = useState({ left: "0px", width: "0px" });
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
   const Preview = previewMap[chordId];
   const code = useMemo(() => generateCode(chordId, config), [chordId, config]);
+  const activeIndex = tabs.findIndex((t) => t.key === tab);
+
+  const syncActiveIndicator = useCallback((index: number) => {
+    const el = tabRefs.current[index];
+    if (el) {
+      setActiveStyle({ left: `${el.offsetLeft}px`, width: `${el.offsetWidth}px` });
+    }
+  }, []);
+
+  // Sync active indicator on tab change & initial mount
+  useEffect(() => {
+    requestAnimationFrame(() => syncActiveIndicator(activeIndex));
+  }, [activeIndex, syncActiveIndicator]);
+
+  // Sync hover indicator
+  useEffect(() => {
+    if (hoveredIndex !== null) {
+      const el = tabRefs.current[hoveredIndex];
+      if (el) {
+        setHoverStyle({ left: `${el.offsetLeft}px`, width: `${el.offsetWidth}px` });
+      }
+    }
+  }, [hoveredIndex]);
 
   const handleCopy = async () => {
     try {
@@ -59,27 +92,35 @@ export function PreviewPanel({ chordId, config }: PreviewPanelProps) {
     <div className="flex min-h-0 flex-col overflow-hidden">
       {/* Tab bar */}
       <div className="flex shrink-0 items-center justify-between border-b border-fd-border/50 bg-fd-card/30 px-4 mx-4 rounded-md">
-        <div className="flex">
-          <button
-            onClick={() => setTab("preview")}
-            className={`border-b-2 px-3 py-2.5 text-xs font-medium uppercase tracking-wide transition-colors ${
-              tab === "preview"
-                ? "border-fd-primary text-fd-foreground"
-                : "border-transparent text-fd-muted-foreground hover:text-fd-foreground"
-            }`}
-          >
-            Preview
-          </button>
-          <button
-            onClick={() => setTab("code")}
-            className={`border-b-2 px-3 py-2.5 text-xs font-medium uppercase tracking-wide transition-colors ${
-              tab === "code"
-                ? "border-fd-primary text-fd-foreground"
-                : "border-transparent text-fd-muted-foreground hover:text-fd-foreground"
-            }`}
-          >
-            Code
-          </button>
+        <div className="relative flex items-center">
+          {/* Hover indicator */}
+          {hoveredIndex !== null && (
+            <div
+              className="absolute h-[30px] rounded-md bg-fd-foreground/8 transition-all duration-300 ease-out"
+              style={hoverStyle}
+            />
+          )}
+          {/* Active underline indicator */}
+          <div
+            className="absolute bottom-0 h-[2px] bg-fd-primary transition-all duration-300 ease-out"
+            style={{ left: `calc(${activeStyle.left} + ${activeStyle.width} * 0.2)`, width: `calc(${activeStyle.width} * 0.6)` }}
+          />
+          {tabs.map((t, i) => (
+            <button
+              key={t.key}
+              ref={(el) => { tabRefs.current[i] = el; }}
+              onClick={() => setTab(t.key)}
+              onMouseEnter={() => setHoveredIndex(i)}
+              onMouseLeave={() => setHoveredIndex(null)}
+              className={`relative z-10 px-3 py-2.5 text-xs font-medium uppercase tracking-wide transition-colors duration-300 ${
+                tab === t.key
+                  ? "text-fd-foreground"
+                  : "text-fd-muted-foreground hover:text-fd-foreground"
+              }`}
+            >
+              {t.label}
+            </button>
+          ))}
         </div>
 
         {tab === "code" && (
@@ -93,7 +134,7 @@ export function PreviewPanel({ chordId, config }: PreviewPanelProps) {
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-auto">
+      <div key={tab} className="animate-fade-in flex-1 overflow-auto">
         {tab === "preview" ? (
           <div className="h-full p-4">
             <Preview config={config} />
