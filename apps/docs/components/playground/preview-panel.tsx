@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import { ShikiHighlighter } from "react-shiki";
 import type { ChordId, ChordConfig } from "@/lib/playground/types";
 import { generateCode } from "./code-generators/generate-code";
+import { TabBar, type Tab } from "./tab-bar";
 import { ComposerActionStatusPreview } from "./previews/composer-action-status-preview";
 import { MessageActionBarPreview } from "./previews/message-action-bar-preview";
 import { BranchNavigationPreview } from "./previews/branch-navigation-preview";
@@ -37,8 +38,6 @@ const previewMap: Record<ChordId, React.FC<{ config: ChordConfig }>> = {
   "scroll-to-bottom": ScrollToBottomPreview,
 };
 
-type Tab = "preview" | "code";
-
 export function PreviewPanel({ chordId, config }: PreviewPanelProps) {
   const [tab, setTab] = useState<Tab>("preview");
   const [copied, setCopied] = useState(false);
@@ -57,43 +56,22 @@ export function PreviewPanel({ chordId, config }: PreviewPanelProps) {
 
   return (
     <div className="flex min-h-0 flex-col overflow-hidden">
-      {/* Tab bar */}
-      <div className="flex shrink-0 items-center justify-between border-b border-fd-border/50 bg-fd-card/30 px-4 mx-4 rounded-md">
-        <div className="flex">
-          <button
-            onClick={() => setTab("preview")}
-            className={`border-b-2 px-3 py-2.5 text-xs font-medium uppercase tracking-wide transition-colors ${
-              tab === "preview"
-                ? "border-fd-primary text-fd-foreground"
-                : "border-transparent text-fd-muted-foreground hover:text-fd-foreground"
-            }`}
-          >
-            Preview
-          </button>
-          <button
-            onClick={() => setTab("code")}
-            className={`border-b-2 px-3 py-2.5 text-xs font-medium uppercase tracking-wide transition-colors ${
-              tab === "code"
-                ? "border-fd-primary text-fd-foreground"
-                : "border-transparent text-fd-muted-foreground hover:text-fd-foreground"
-            }`}
-          >
-            Code
-          </button>
-        </div>
+      <TabBar
+        tab={tab}
+        onTabChange={setTab}
+        trailing={
+          tab === "code" ? (
+            <button
+              onClick={handleCopy}
+              className="flex items-center gap-1 rounded px-2 py-1 text-xs text-fd-muted-foreground transition-colors hover:bg-fd-accent hover:text-fd-foreground"
+            >
+              {copied ? "Copied!" : "Copy"}
+            </button>
+          ) : undefined
+        }
+      />
 
-        {tab === "code" && (
-          <button
-            onClick={handleCopy}
-            className="flex items-center gap-1 rounded px-2 py-1 text-xs text-fd-muted-foreground transition-colors hover:bg-fd-accent hover:text-fd-foreground"
-          >
-            {copied ? "Copied!" : "Copy"}
-          </button>
-        )}
-      </div>
-
-      {/* Content */}
-      <div className="flex-1 overflow-auto">
+      <div key={tab} className="animate-fade-in flex-1 overflow-auto">
         {tab === "preview" ? (
           <div className="h-full p-4">
             <Preview config={config} />
