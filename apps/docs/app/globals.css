@@ -36,16 +36,16 @@
 
 /* Align Fumadocs background with landing page palette */
 :root {
-  --color-fd-background: #FAF9F6;
+  --color-fd-background: #faf9f6;
 }
 
 .dark {
-  --color-fd-background: #0A0A0A;
+  --color-fd-background: #0a0a0a;
 }
 
 /* Golden shimmer for logo in dark mode */
 .dark .shimmer-logo-gold {
-  --shimmer-color: #FFD700;
+  --shimmer-color: #ffd700;
 }
 
 /* Hidden scrollbar for playground sidebar — still scrollable */
@@ -58,11 +58,27 @@
 
 /* Fade-in for playground tab transitions */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 .animate-fade-in {
   animation: fadeIn 150ms ease-in;
+}
+
+/* Offset all Fumadocs layout rows below our custom navbar (h-14 = 3.5rem).
+   --fd-banner-height feeds into --fd-docs-row-1/2/3 which position
+   the sub-nav, sidebar, TOC, and collapse button. */
+:root {
+  --fd-banner-height: 3.5rem;
+}
+
+/* Hide Fumadocs mobile sub-nav — our navbar has sidebar & search controls */
+#nd-subnav {
+  display: none;
 }
 
 /* Match sidebar bg to page background without affecting card components */
