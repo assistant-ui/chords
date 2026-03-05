@@ -17,7 +17,7 @@ function SidebarToggle({
   return (
     <button
       onClick={onClick}
-      className="rounded-md p-1.5 text-fd-muted-foreground transition-colors hover:bg-fd-accent hover:text-fd-foreground"
+      className="rounded-md p-1.5 text-fd-muted-foreground transition-colors hover:bg-fd-accent hover:text-fd-foreground ml-2"
       aria-label={open ? "Collapse sidebar" : "Expand sidebar"}
     >
       <svg
