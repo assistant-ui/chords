@@ -72,10 +72,10 @@ function PlaygroundContent() {
       >
         {/* Left panel — controls (scrollable) */}
         <div
-          className={`playground-scroll flex flex-col gap-4 overflow-hidden border-fd-border px-3 pb-4 transition-all duration-300 ease-out ${
+          className={`playground-scroll flex flex-col gap-4 border-fd-border px-3 pb-4 transition-all duration-300 ease-out ${
             sidebarOpen
-              ? "max-h-[40vh] border-b opacity-100 lg:max-h-none lg:border-b-0 lg:border-r lg:mb-4 lg:rounded-md"
-              : "max-h-0 border-b-0 opacity-0 lg:max-h-none lg:border-r-0"
+              ? "max-h-[40vh] overflow-y-auto border-b opacity-100 lg:max-h-none lg:border-b-0 lg:border-r lg:mb-4 lg:rounded-md"
+              : "max-h-0 overflow-hidden border-b-0 opacity-0 lg:max-h-none lg:border-r-0"
           }`}
         >
           <ChordSelector chordId={state.chordId} onChange={state.setChordId} />

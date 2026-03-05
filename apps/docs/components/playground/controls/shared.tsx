@@ -1,6 +1,95 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+
+// --- Row-based layout primitives ---
+
+export function Row({
+  label,
+  control,
+}: {
+  label: string;
+  control: React.ReactNode;
+}) {
+  return (
+    <div className="flex h-8 items-center justify-between">
+      <span className="text-sm text-fd-foreground">{label}</span>
+      {control}
+    </div>
+  );
+}
+
+// --- Reusable custom dropdown ---
+
+function Dropdown({
+  value,
+  onChange,
+  options,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  options: { label: string; value: string }[];
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const selected = options.find((o) => o.value === value);
+
+  useEffect(() => {
+    if (!open) return;
+    function handleClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [open]);
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        className="flex h-7 items-center gap-1.5 rounded-md border border-fd-border bg-fd-background px-2 text-sm text-fd-foreground outline-none transition-colors hover:bg-fd-accent/50 focus:ring-2 focus:ring-fd-primary/30"
+      >
+        <span>{selected?.label ?? value ?? "—"}</span>
+        <svg
+          className={`size-3 text-fd-muted-foreground transition-transform duration-150 ${open ? "rotate-180" : ""}`}
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={2.5}
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      {open && (
+        <div className="absolute right-0 top-full z-50 mt-1 min-w-[var(--trigger-width)] rounded-lg border border-fd-border bg-fd-popover py-1 shadow-lg"
+          style={{ "--trigger-width": `${ref.current?.offsetWidth ?? 80}px` } as React.CSSProperties}
+        >
+          {options.map((o) => (
+            <button
+              key={o.value}
+              type="button"
+              onClick={() => {
+                onChange(o.value);
+                setOpen(false);
+              }}
+              className={`flex w-full items-center px-2.5 py-1 text-sm transition-colors ${
+                o.value === value
+                  ? "bg-fd-accent text-fd-accent-foreground font-medium"
+                  : "text-fd-foreground hover:bg-fd-accent/50"
+              }`}
+            >
+              {o.label}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// --- Basic inputs ---
 
 export function TextInput({
   label,
@@ -14,18 +103,18 @@ export function TextInput({
   placeholder?: string;
 }) {
   return (
-    <div>
-      <label className="mb-1 block text-xs font-medium text-fd-muted-foreground">
-        {label}
-      </label>
-      <input
-        type="text"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        className="w-full rounded-md border border-fd-border bg-fd-background px-2.5 py-1.5 text-sm text-fd-foreground outline-none placeholder:text-fd-muted-foreground/50 focus:ring-2 focus:ring-fd-primary/30"
-      />
-    </div>
+    <Row
+      label={label}
+      control={
+        <input
+          type="text"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={placeholder}
+          className="h-7 w-28 rounded-md border border-fd-border bg-fd-background px-2 text-right text-sm text-fd-foreground outline-none placeholder:text-fd-muted-foreground/50 focus:ring-2 focus:ring-fd-primary/30"
+        />
+      }
+    />
   );
 }
 
@@ -41,28 +130,15 @@ export function SelectInput({
   options: { label: string; value: string }[];
 }) {
   return (
-    <div>
-      <label className="mb-1 block text-xs font-medium text-fd-muted-foreground">
-        {label}
-      </label>
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-md border border-fd-border bg-fd-background px-2.5 py-1.5 text-sm text-fd-foreground outline-none focus:ring-2 focus:ring-fd-primary/30"
-      >
-        {options.map((o) => (
-          <option key={o.value} value={o.value}>
-            {o.label}
-          </option>
-        ))}
-      </select>
-    </div>
+    <Row
+      label={label}
+      control={<Dropdown value={value} onChange={onChange} options={options} />}
+    />
   );
 }
 
 export function CheckboxInput({
   label,
-  description,
   checked,
   onChange,
 }: {
@@ -72,20 +148,69 @@ export function CheckboxInput({
   onChange: (v: boolean) => void;
 }) {
   return (
-    <label className="flex items-start gap-2 py-0.5">
-      <input
-        type="checkbox"
-        checked={checked}
-        onChange={(e) => onChange(e.target.checked)}
-        className="mt-0.5 rounded border-fd-border"
-      />
-      <div>
-        <div className="text-sm text-fd-foreground">{label}</div>
-        {description && (
-          <div className="text-xs text-fd-muted-foreground">{description}</div>
-        )}
+    <Row
+      label={label}
+      control={
+        <button
+          type="button"
+          role="switch"
+          aria-checked={checked}
+          onClick={() => onChange(!checked)}
+          className={`relative h-5 w-9 rounded-full transition-colors ${
+            checked ? "bg-fd-primary" : "bg-fd-border"
+          }`}
+        >
+          <span
+            className={`absolute top-0.5 left-0.5 size-4 rounded-full bg-white transition-transform shadow-sm ${
+              checked ? "translate-x-4" : "translate-x-0"
+            }`}
+          />
+        </button>
+      }
+    />
+  );
+}
+
+export function MultiCheckbox({
+  label,
+  options,
+  selected,
+  onChange,
+}: {
+  label: string;
+  options: string[];
+  selected: string[];
+  onChange: (v: string[]) => void;
+}) {
+  return (
+    <div>
+      <div className="mb-1.5 text-sm text-fd-foreground">{label}</div>
+      <div className="flex flex-wrap gap-1.5">
+        {options.map((opt) => {
+          const isSelected = selected.includes(opt);
+          return (
+            <button
+              key={opt}
+              type="button"
+              onClick={() =>
+                onChange(
+                  isSelected
+                    ? selected.filter((s) => s !== opt)
+                    : [...selected, opt],
+                )
+              }
+              className={`rounded-md border px-2.5 py-1 text-xs transition-colors ${
+                isSelected
+                  ? "border-fd-primary bg-fd-primary/10 text-fd-primary"
+                  : "border-fd-border text-fd-muted-foreground hover:bg-fd-accent"
+              }`}
+            >
+              {opt}
+            </button>
+          );
+        })}
       </div>
-    </label>
+    </div>
   );
 }
 
@@ -105,9 +230,7 @@ export function ClassInput({
   return (
     <div>
       <div className="mb-1 flex items-center justify-between">
-        <label className="text-xs font-medium text-fd-muted-foreground">
-          {label}
-        </label>
+        <span className="text-sm text-fd-foreground">{label}</span>
         {isCustom ? (
           <button
             type="button"
@@ -142,54 +265,8 @@ export function ClassInput({
   );
 }
 
-export function MultiCheckbox({
-  label,
-  options,
-  selected,
-  onChange,
-}: {
-  label: string;
-  options: string[];
-  selected: string[];
-  onChange: (v: string[]) => void;
-}) {
-  return (
-    <div>
-      <label className="mb-1.5 block text-xs font-medium text-fd-muted-foreground">
-        {label}
-      </label>
-      <div className="flex flex-wrap gap-2">
-        {options.map((opt) => {
-          const isSelected = selected.includes(opt);
-          return (
-            <button
-              key={opt}
-              type="button"
-              onClick={() =>
-                onChange(
-                  isSelected
-                    ? selected.filter((s) => s !== opt)
-                    : [...selected, opt],
-                )
-              }
-              className={`rounded-md border px-2.5 py-1 text-xs transition-colors ${
-                isSelected
-                  ? "border-fd-primary bg-fd-primary/10 text-fd-primary"
-                  : "border-fd-border text-fd-muted-foreground hover:bg-fd-accent"
-              }`}
-            >
-              {opt}
-            </button>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
 // --- Visual Style Controls ---
 
-// Tailwind color name → hex for rendering swatches (avoids dynamic class purging)
 const COLOR_HEX: Record<string, string> = {
   "zinc-100": "#f4f4f5", "zinc-300": "#d4d4d8", "zinc-500": "#71717a", "zinc-700": "#3f3f46", "zinc-900": "#18181b",
   "blue-100": "#dbeafe", "blue-300": "#93c5fd", "blue-500": "#3b82f6", "blue-700": "#1d4ed8", "blue-900": "#1e3a8a",
@@ -284,7 +361,18 @@ function buildClassName(tokens: StyleTokens, rest: string): string {
   return parts.join(" ");
 }
 
-function ColorSwatchPicker({
+// --- Compact Color Picker (popover-based) ---
+
+function getSwatchColor(value: string | undefined): string | undefined {
+  if (!value) return undefined;
+  const name = value.replace(/^(bg|text)-/, "");
+  if (name === "black") return "#000";
+  if (name === "white") return "#fff";
+  if (name === "transparent") return undefined;
+  return COLOR_HEX[name];
+}
+
+function ColorPickerPopover({
   label,
   prefix,
   value,
@@ -295,79 +383,148 @@ function ColorSwatchPicker({
   value: string | undefined;
   onChange: (v: string | undefined) => void;
 }) {
-  const selected = value?.replace(`${prefix}-`, "") ?? "";
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const swatchColor = getSwatchColor(value);
+  const isTransparent = value === `${prefix}-transparent`;
+
+  useEffect(() => {
+    if (!open) return;
+    function handleClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [open]);
 
   return (
-    <div>
-      <label className="mb-1.5 block text-xs font-medium text-fd-muted-foreground">
-        {label}
-      </label>
-      <div className="flex flex-wrap gap-1">
-        {/* Extra colors */}
-        {EXTRA_COLORS.filter((c) => !(prefix === "text" && c === "transparent")).map((color) => {
-          const cls = `${prefix}-${color}`;
-          const isSelected = value === cls;
-          const bgStyle =
-            color === "black"
-              ? "#000"
-              : color === "white"
-                ? "#fff"
-                : undefined;
-          return (
-            <button
-              key={color}
-              type="button"
-              title={color}
-              onClick={() => onChange(isSelected ? undefined : cls)}
-              className={`size-5 rounded border transition-all ${
-                isSelected
-                  ? "ring-2 ring-fd-primary ring-offset-1 ring-offset-fd-background"
-                  : "border-fd-border hover:scale-110"
-              }`}
-              style={{
-                backgroundColor: bgStyle,
-                ...(color === "transparent"
-                  ? {
-                      backgroundImage:
-                        "linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 75%, #ccc 75%, #ccc), linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 75%, #ccc 75%, #ccc)",
-                      backgroundSize: "6px 6px",
-                      backgroundPosition: "0 0, 3px 3px",
-                    }
-                  : {}),
-              }}
-            />
-          );
-        })}
+    <Row
+      label={label}
+      control={
+        <div ref={ref} className="relative">
+          <button
+            type="button"
+            onClick={() => setOpen(!open)}
+            className={`size-6 rounded-md border transition-all hover:scale-110 ${
+              value
+                ? "border-fd-border ring-1 ring-fd-primary/30"
+                : "border-fd-border"
+            }`}
+            style={{
+              backgroundColor: swatchColor,
+              ...(isTransparent
+                ? {
+                    backgroundImage:
+                      "linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 75%, #ccc 75%, #ccc), linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 75%, #ccc 75%, #ccc)",
+                    backgroundSize: "6px 6px",
+                    backgroundPosition: "0 0, 3px 3px",
+                  }
+                : {}),
+              ...(!value && !isTransparent
+                ? {
+                    backgroundImage:
+                      "linear-gradient(135deg, #e5e7eb 50%, #d1d5db 50%)",
+                  }
+                : {}),
+            }}
+          />
 
-        <div className="w-px bg-fd-border mx-0.5" />
+          {open && (
+            <div className="absolute right-0 top-full z-50 mt-2 rounded-xl border border-fd-border bg-fd-popover p-3 shadow-lg">
+              {/* Extra colors row */}
+              <div className="mb-2 flex gap-1">
+                {EXTRA_COLORS.filter(
+                  (c) => !(prefix === "text" && c === "transparent"),
+                ).map((color) => {
+                  const cls = `${prefix}-${color}`;
+                  const isSelected = value === cls;
+                  const bg =
+                    color === "black"
+                      ? "#000"
+                      : color === "white"
+                        ? "#fff"
+                        : undefined;
+                  return (
+                    <button
+                      key={color}
+                      type="button"
+                      title={color}
+                      onClick={() => {
+                        onChange(isSelected ? undefined : cls);
+                        setOpen(false);
+                      }}
+                      className={`size-5 rounded border transition-all ${
+                        isSelected
+                          ? "ring-2 ring-fd-primary ring-offset-1 ring-offset-fd-background"
+                          : "border-fd-border hover:scale-110"
+                      }`}
+                      style={{
+                        backgroundColor: bg,
+                        ...(color === "transparent"
+                          ? {
+                              backgroundImage:
+                                "linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 75%, #ccc 75%, #ccc), linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 75%, #ccc 75%, #ccc)",
+                              backgroundSize: "6px 6px",
+                              backgroundPosition: "0 0, 3px 3px",
+                            }
+                          : {}),
+                      }}
+                    />
+                  );
+                })}
+                {/* Clear button */}
+                {value && (
+                  <button
+                    type="button"
+                    title="Clear"
+                    onClick={() => {
+                      onChange(undefined);
+                      setOpen(false);
+                    }}
+                    className="flex size-5 items-center justify-center rounded border border-fd-border text-[10px] text-fd-muted-foreground hover:bg-fd-accent"
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
 
-        {/* Color palette */}
-        {Object.entries(COLOR_PALETTE).map(([, shades]) =>
-          shades.map((shade) => {
-            const cls = `${prefix}-${shade}`;
-            const isSelected = value === cls;
-            return (
-              <button
-                key={shade}
-                type="button"
-                title={shade}
-                onClick={() => onChange(isSelected ? undefined : cls)}
-                className={`size-5 rounded border transition-all ${
-                  isSelected
-                    ? "ring-2 ring-fd-primary ring-offset-1 ring-offset-fd-background"
-                    : "border-transparent hover:scale-110"
-                }`}
-                style={{ backgroundColor: COLOR_HEX[shade] }}
-              />
-            );
-          }),
-        )}
-      </div>
-    </div>
+              {/* Color grid */}
+              <div className="grid grid-cols-5 gap-1">
+                {Object.entries(COLOR_PALETTE).map(([, shades]) =>
+                  shades.map((shade) => {
+                    const cls = `${prefix}-${shade}`;
+                    const isSelected = value === cls;
+                    return (
+                      <button
+                        key={shade}
+                        type="button"
+                        title={shade}
+                        onClick={() => {
+                          onChange(isSelected ? undefined : cls);
+                          setOpen(false);
+                        }}
+                        className={`size-5 rounded transition-all ${
+                          isSelected
+                            ? "ring-2 ring-fd-primary ring-offset-1 ring-offset-fd-background"
+                            : "hover:scale-110"
+                        }`}
+                        style={{ backgroundColor: COLOR_HEX[shade] }}
+                      />
+                    );
+                  }),
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      }
+    />
   );
 }
 
-function SizeSlider({
+// --- Compact controls for StyleBuilder ---
+
+function SizeSelect({
   value,
   onChange,
 }: {
@@ -375,30 +532,21 @@ function SizeSlider({
   onChange: (v: string | undefined) => void;
 }) {
   const current = value?.replace("size-", "") ?? "";
-  const idx = SIZE_OPTIONS.indexOf(current as (typeof SIZE_OPTIONS)[number]);
 
   return (
-    <div>
-      <label className="mb-1.5 block text-xs font-medium text-fd-muted-foreground">
-        size
-      </label>
-      <div className="flex items-center gap-2">
-        <input
-          type="range"
-          min={0}
-          max={SIZE_OPTIONS.length - 1}
-          value={idx >= 0 ? idx : 4}
-          onChange={(e) => {
-            const i = parseInt(e.target.value, 10);
-            onChange(`size-${SIZE_OPTIONS[i]}`);
-          }}
-          className="flex-1 accent-fd-primary"
+    <Row
+      label="size"
+      control={
+        <Dropdown
+          value={current}
+          onChange={(v) => onChange(v ? `size-${v}` : undefined)}
+          options={[
+            { label: "—", value: "" },
+            ...SIZE_OPTIONS.map((s) => ({ label: s, value: s })),
+          ]}
         />
-        <span className="w-10 text-center text-xs font-mono text-fd-muted-foreground">
-          {current ? `size-${current}` : "—"}
-        </span>
-      </div>
-    </div>
+      }
+    />
   );
 }
 
@@ -412,35 +560,26 @@ function RoundedSelect({
   const current = value ?? "";
 
   return (
-    <div>
-      <label className="mb-1.5 block text-xs font-medium text-fd-muted-foreground">
-        rounded
-      </label>
-      <div className="flex flex-wrap gap-1">
-        {ROUNDED_OPTIONS.map((opt) => {
-          const cls = opt.value === "none" ? "rounded-none" : `rounded-${opt.value}`;
-          const isSelected = current === cls;
-          return (
-            <button
-              key={opt.value}
-              type="button"
-              onClick={() => onChange(isSelected ? undefined : cls)}
-              className={`rounded-md border px-2 py-0.5 text-xs transition-colors ${
-                isSelected
-                  ? "border-fd-primary bg-fd-primary/10 text-fd-primary"
-                  : "border-fd-border text-fd-muted-foreground hover:bg-fd-accent"
-              }`}
-            >
-              {opt.label}
-            </button>
-          );
-        })}
-      </div>
-    </div>
+    <Row
+      label="rounded"
+      control={
+        <Dropdown
+          value={current}
+          onChange={(v) => onChange(v || undefined)}
+          options={[
+            { label: "—", value: "" },
+            ...ROUNDED_OPTIONS.map((opt) => ({
+              label: opt.label,
+              value: opt.value === "none" ? "rounded-none" : `rounded-${opt.value}`,
+            })),
+          ]}
+        />
+      }
+    />
   );
 }
 
-function PaddingSlider({
+function PaddingSelect({
   axis,
   value,
   onChange,
@@ -450,32 +589,21 @@ function PaddingSlider({
   onChange: (v: string | undefined) => void;
 }) {
   const current = value?.replace(`${axis}-`, "") ?? "";
-  const idx = PADDING_OPTIONS.indexOf(
-    current as (typeof PADDING_OPTIONS)[number],
-  );
 
   return (
-    <div>
-      <label className="mb-1.5 block text-xs font-medium text-fd-muted-foreground">
-        {axis}
-      </label>
-      <div className="flex items-center gap-2">
-        <input
-          type="range"
-          min={0}
-          max={PADDING_OPTIONS.length - 1}
-          value={idx >= 0 ? idx : 0}
-          onChange={(e) => {
-            const i = parseInt(e.target.value, 10);
-            onChange(`${axis}-${PADDING_OPTIONS[i]}`);
-          }}
-          className="flex-1 accent-fd-primary"
+    <Row
+      label={axis}
+      control={
+        <Dropdown
+          value={current}
+          onChange={(v) => onChange(v ? `${axis}-${v}` : undefined)}
+          options={[
+            { label: "—", value: "" },
+            ...PADDING_OPTIONS.map((p) => ({ label: p, value: p })),
+          ]}
         />
-        <span className="w-8 text-center text-xs font-mono text-fd-muted-foreground">
-          {current ? `${axis}-${current}` : "—"}
-        </span>
-      </div>
-    </div>
+      }
+    />
   );
 }
 
@@ -527,7 +655,6 @@ export function StyleBuilder({
   const { tokens, rest } = parseTokens(effectiveValue);
 
   const update = (patch: Partial<StyleTokens>, newRest?: string) => {
-    // Parse fresh from current value to avoid stale closures
     const current = parseTokens(value || defaultValue);
     const next = { ...current.tokens, ...patch };
     const r = newRest !== undefined ? newRest : current.rest;
@@ -537,75 +664,73 @@ export function StyleBuilder({
   const isDefault = !value;
 
   return (
-    <div className="rounded-lg border border-fd-border p-3">
-      <div className="mb-2.5 flex items-center justify-between">
-        <label className="text-xs font-semibold text-fd-foreground">
+    <div className="space-y-1 border-t border-fd-border/50 pt-3">
+      <div className="flex items-center justify-between">
+        <span className="text-xs font-medium text-fd-muted-foreground">
           {label}
-        </label>
+        </span>
         {!isDefault && (
           <button
             type="button"
             onClick={() => onChange("")}
             className="text-[10px] text-fd-muted-foreground hover:text-fd-foreground"
           >
-            Reset to default
+            Reset
           </button>
         )}
       </div>
 
-      <div className="flex flex-col gap-3">
-        {controls.includes("bg") && (
-          <ColorSwatchPicker
-            label="Background"
-            prefix="bg"
-            value={tokens.bg}
-            onChange={(v) => update({ bg: v })}
-          />
-        )}
-
-        {controls.includes("text") && (
-          <ColorSwatchPicker
-            label="Text color"
-            prefix="text"
-            value={tokens.text}
-            onChange={(v) => update({ text: v })}
-          />
-        )}
-
-        {controls.includes("size") && (
-          <SizeSlider
-            value={tokens.size}
-            onChange={(v) => update({ size: v })}
-          />
-        )}
-
-        {controls.includes("rounded") && (
-          <RoundedSelect
-            value={tokens.rounded}
-            onChange={(v) => update({ rounded: v })}
-          />
-        )}
-
-        {controls.includes("p") && (
-          <>
-            <PaddingSlider
-              axis="px"
-              value={tokens.px}
-              onChange={(v) => update({ px: v })}
-            />
-            <PaddingSlider
-              axis="py"
-              value={tokens.py}
-              onChange={(v) => update({ py: v })}
-            />
-          </>
-        )}
-
-        <RawClassInput
-          value={rest}
-          onChange={(v) => update({}, v)}
+      {controls.includes("bg") && (
+        <ColorPickerPopover
+          label="Background"
+          prefix="bg"
+          value={tokens.bg}
+          onChange={(v) => update({ bg: v })}
         />
-      </div>
+      )}
+
+      {controls.includes("text") && (
+        <ColorPickerPopover
+          label="Text color"
+          prefix="text"
+          value={tokens.text}
+          onChange={(v) => update({ text: v })}
+        />
+      )}
+
+      {controls.includes("size") && (
+        <SizeSelect
+          value={tokens.size}
+          onChange={(v) => update({ size: v })}
+        />
+      )}
+
+      {controls.includes("rounded") && (
+        <RoundedSelect
+          value={tokens.rounded}
+          onChange={(v) => update({ rounded: v })}
+        />
+      )}
+
+      {controls.includes("p") && (
+        <>
+          <PaddingSelect
+            axis="px"
+            value={tokens.px}
+            onChange={(v) => update({ px: v })}
+          />
+          <PaddingSelect
+            axis="py"
+            value={tokens.py}
+            onChange={(v) => update({ py: v })}
+          />
+        </>
+      )}
+
+      <RawClassInput
+        value={rest}
+        onChange={(v) => update({}, v)}
+      />
     </div>
   );
 }
