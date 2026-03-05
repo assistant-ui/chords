@@ -79,7 +79,7 @@ export function PreviewPanel({ chordId, config }: PreviewPanelProps) {
         ) : (
           <ShikiHighlighter
             language="tsx"
-            theme={{ light: "github-light", dark: "github-dark" }}
+            theme={{ light: "github-light", dark: "vitesse-dark" }}
             defaultColor="light-dark()"
             showLanguage={false}
             className="!bg-transparent !p-4 !text-sm [&_code]:whitespace-pre-wrap [&_code]:break-words"
