@@ -12,6 +12,9 @@ build/
 # fumadocs generated
 .source/
 
+# next.js auto-generated (flips between dev/build paths)
+next-env.d.ts
+
 # logs
 npm-debug.log*
 pnpm-debug.log*
