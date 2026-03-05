@@ -140,6 +140,20 @@ const generators: Record<ChordId, (config: ChordConfig) => CodeGenResult> = {
 </ThreadPrimitive.Empty>`,
     };
   },
+  "reasoning-accordion": (config) => {
+    const defaults = chordRegistry["reasoning-accordion"].defaultConfig;
+    const props = buildPropsString(config, defaults);
+    return {
+      imports: `import { ReasoningAccordion } from "@assistant-ui/chords";`,
+      jsx: `<MessagePrimitive.Parts
+  components={{
+    Text: ({ text }) => <span>{text}</span>,
+    Reasoning: ({ text }) => <span>{text}</span>,
+    ReasoningGroup: ReasoningAccordion,
+  }}
+/>`,
+    };
+  },
   "scroll-to-bottom": (config) => {
     const defaults = chordRegistry["scroll-to-bottom"].defaultConfig;
     const props = buildPropsString(config, defaults);

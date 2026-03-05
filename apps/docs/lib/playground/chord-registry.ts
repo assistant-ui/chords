@@ -103,6 +103,15 @@ export const chordRegistry: Record<ChordId, ChordMeta> = {
       icon: "U",
     },
   },
+  "reasoning-accordion": {
+    id: "reasoning-accordion",
+    name: "ReasoningAccordion",
+    category: "major",
+    description: "Collapsible accordion for AI reasoning/thinking with auto-expand during streaming",
+    defaultConfig: {
+      label: "Reasoning",
+    },
+  },
   "scroll-to-bottom": {
     id: "scroll-to-bottom",
     name: "ScrollToBottom",

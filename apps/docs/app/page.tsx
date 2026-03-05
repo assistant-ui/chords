@@ -44,6 +44,12 @@ const majorChords = [
     description: "File and image attachments for composer and messages.",
     href: "/docs/major-chords/attachment",
   },
+  {
+    name: "ReasoningAccordion",
+    description:
+      "Collapsible accordion for AI reasoning with auto-expand during streaming.",
+    href: "/docs/major-chords/reasoning-accordion",
+  },
 ];
 
 const minorChords = [

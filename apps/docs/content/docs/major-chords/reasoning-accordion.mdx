@@ -1,0 +1,87 @@
+---
+title: ReasoningAccordion
+description: Collapsible accordion that displays AI reasoning/thinking content with auto-expand during streaming.
+---
+
+## Overview
+
+`ReasoningAccordion` is a drop-in component that displays AI reasoning or thinking content in a collapsible accordion. It automatically expands while reasoning is streaming and collapses when done. The trigger label animates with a shimmer effect during active streaming.
+
+## Demo
+
+<ReasoningAccordionDemo />
+
+## When to use
+
+- Show "thinking" or "reasoning" content from models like Claude or o1
+- Auto-expand reasoning while it streams, auto-collapse when complete
+- Provide a clean, collapsible UI for verbose chain-of-thought output
+
+## Features
+
+- **Auto-expand/collapse**: Opens when reasoning streams in, closes when done
+- **User override**: Manual toggle prevents auto-collapse so users can keep reading
+- **Shimmer animation**: Trigger label shimmers during active streaming via `tw-shimmer`
+- **Scroll lock**: Smooth collapse animation without jarring scroll jumps
+- **Customizable**: Override classes, label text, trigger, and icon renderers
+
+## Props
+
+`ReasoningAccordion` implements the `ReasoningGroupComponent` interface from `@assistant-ui/react`. The `children`, `startIndex`, and `endIndex` props are passed automatically by `MessagePrimitive.Parts`.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | string | — | Root container class |
+| `triggerClassName` | string | — | Trigger button class |
+| `contentClassName` | string | — | Collapsible content area class |
+| `textClassName` | string | — | Inner text wrapper class |
+| `label` | string | `"Reasoning"` | Trigger label text |
+| `renderTrigger` | `(props: { active: boolean; label: string }) => ReactNode` | — | Custom trigger renderer |
+| `renderIcon` | `() => ReactNode` | — | Custom icon renderer (default: brain SVG) |
+
+## Basic Usage
+
+```tsx
+import { ReasoningAccordion } from "@assistant-ui/chords";
+
+export function AssistantMessage() {
+  return (
+    <MessagePrimitive.Root>
+      <MessagePrimitive.Parts
+        components={{
+          Text: ({ text }) => <span>{text}</span>,
+          Reasoning: ({ text }) => <span>{text}</span>,
+          ReasoningGroup: ReasoningAccordion,
+        }}
+      />
+    </MessagePrimitive.Root>
+  );
+}
+```
+
+## Custom Label
+
+```tsx
+<MessagePrimitive.Parts
+  components={{
+    Text: ({ text }) => <span>{text}</span>,
+    Reasoning: ({ text }) => <span>{text}</span>,
+    ReasoningGroup: (props) => (
+      <ReasoningAccordion {...props} label="Thinking..." />
+    ),
+  }}
+/>
+```
+
+## Underlying Primitives
+
+`ReasoningAccordion` uses `useAuiState` to detect when reasoning parts are actively streaming, and `useScrollLock` from `@assistant-ui/react` for smooth collapse animations. It requires both a `Reasoning` component (to render the text) and a `ReasoningGroup` component (the accordion wrapper) in `MessagePrimitive.Parts`.
+
+## Dependencies
+
+Requires `tw-shimmer` CSS for the shimmer animation. Add to your CSS:
+
+```css
+@import "tw-shimmer/src/index.css";
+@source inline("shimmer");
+```

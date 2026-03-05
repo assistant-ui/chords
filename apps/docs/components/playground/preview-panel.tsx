@@ -17,6 +17,7 @@ import { CopyButtonPreview } from "./previews/copy-button-preview";
 import { SuggestionChipsPreview } from "./previews/suggestion-chips-preview";
 import { ThreadEmptyPreview } from "./previews/thread-empty-preview";
 import { ScrollToBottomPreview } from "./previews/scroll-to-bottom-preview";
+import { ReasoningAccordionPreview } from "./previews/reasoning-accordion-preview";
 
 type PreviewPanelProps = {
   chordId: ChordId;
@@ -36,6 +37,7 @@ const previewMap: Record<ChordId, React.FC<{ config: ChordConfig }>> = {
   "suggestion-chips": SuggestionChipsPreview,
   "thread-empty": ThreadEmptyPreview,
   "scroll-to-bottom": ScrollToBottomPreview,
+  "reasoning-accordion": ReasoningAccordionPreview,
 };
 
 export function PreviewPanel({ chordId, config }: PreviewPanelProps) {
