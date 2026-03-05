@@ -57,12 +57,42 @@ export const mockModelAdapter: ChatModelAdapter = {
 
     const text = RESPONSES[idx]!;
 
+    // Every 3rd text message: include reasoning before the response
+    if (idx % 3 === 1) {
+      const reasoning =
+        "Let me think about this step by step. First, I need to consider the key aspects of the question. Then I'll organize my thoughts into a clear structure. This involves weighing multiple perspectives and finding the most helpful way to respond.";
+
+      for (let i = 0; i < reasoning.length; i++) {
+        if (abortSignal.aborted) return;
+        await new Promise((r) => setTimeout(r, 8));
+        yield {
+          content: [
+            { type: "reasoning" as const, text: reasoning.slice(0, i + 1) },
+          ],
+        };
+      }
+
+      await new Promise((r) => setTimeout(r, 300));
+      if (abortSignal.aborted) return;
+    }
+
     // Simulate streaming by yielding one character at a time
     for (let i = 0; i < text.length; i++) {
       if (abortSignal.aborted) return;
       await new Promise((r) => setTimeout(r, 15));
       yield {
-        content: [{ type: "text" as const, text: text.slice(0, i + 1) }],
+        content: [
+          // Keep reasoning part if it was emitted
+          ...(idx % 3 === 1
+            ? [
+                {
+                  type: "reasoning" as const,
+                  text: "Let me think about this step by step. First, I need to consider the key aspects of the question. Then I'll organize my thoughts into a clear structure. This involves weighing multiple perspectives and finding the most helpful way to respond.",
+                },
+              ]
+            : []),
+          { type: "text" as const, text: text.slice(0, i + 1) },
+        ],
       };
     }
   },

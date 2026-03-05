@@ -19,6 +19,7 @@ import {
   MessageActionBar,
   MessageAttachments,
   MessageStatus,
+  ReasoningAccordion,
   ScrollToBottom,
   ThreadEmpty,
   ToolCallRenderer,
@@ -145,6 +146,8 @@ const AssistantMessage: FC = () => {
           <MessagePrimitive.Parts
             components={{
               Text: ({ text }) => <span>{text}</span>,
+              Reasoning: ({ text }) => <span>{text}</span>,
+              ReasoningGroup: ReasoningAccordion,
               tools: { Fallback: ToolCallRenderer },
             }}
           />
