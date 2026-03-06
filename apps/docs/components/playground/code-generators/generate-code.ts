@@ -162,6 +162,26 @@ const generators: Record<ChordId, (config: ChordConfig) => CodeGenResult> = {
 />`,
     };
   },
+  "thread-list": (config) => {
+    const defaults = chordRegistry["thread-list"].defaultConfig;
+    const filteredConfig = { ...config };
+    delete filteredConfig.titleFallback;
+    delete filteredConfig.actions;
+    const listProps = buildPropsString(filteredConfig, defaults);
+    const itemConfig: Record<string, unknown> = {};
+    if (config.titleFallback) itemConfig.titleFallback = config.titleFallback;
+    if (config.actions) itemConfig.actions = config.actions;
+    const itemDefaults = { titleFallback: "New Chat", actions: ["archive", "delete"] };
+    const itemProps = buildPropsString(itemConfig, itemDefaults);
+    return {
+      imports: `import { ThreadList, ThreadListItem } from "@assistant-ui/chords";`,
+      jsx: `<ThreadList${listProps}
+  ThreadListItem={() => (
+    <ThreadListItem${itemProps} />
+  )}
+/>`,
+    };
+  },
   "scroll-to-bottom": (config) => {
     const defaults = chordRegistry["scroll-to-bottom"].defaultConfig;
     const props = buildPropsString(config, defaults);
