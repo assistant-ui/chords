@@ -10,6 +10,7 @@
     "attachment",
     "tool-call-renderer",
     "reasoning-accordion",
-    "feedback-buttons"
+    "feedback-buttons",
+    "thread-list"
   ]
 }

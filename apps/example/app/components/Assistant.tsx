@@ -23,6 +23,8 @@ import {
   ReasoningAccordion,
   ScrollToBottom,
   ThreadEmpty,
+  ThreadList,
+  ThreadListItem,
   ToolCallRenderer,
 } from "@assistant-ui/chords";
 import { mockModelAdapter } from "../lib/mock-model-adapter";
@@ -30,6 +32,7 @@ import type { FC } from "react";
 
 export const Assistant: FC = () => {
   const [isDark, setIsDark] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const runtime = useLocalRuntime(mockModelAdapter, {
     adapters: {
       attachments: new SimpleImageAttachmentAdapter(),
@@ -53,7 +56,26 @@ export const Assistant: FC = () => {
   return (
     <div className={isDark ? "dark" : ""}>
       <AssistantRuntimeProvider runtime={runtime}>
-        <Thread isDark={isDark} onToggleTheme={() => setIsDark((v) => !v)} />
+        <div className="flex h-screen">
+          {sidebarOpen && (
+            <div className="flex w-64 flex-col border-r border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900">
+              <ThreadList
+                ThreadListItem={() => (
+                  <ThreadListItem actions={["archive", "delete"]} />
+                )}
+              />
+            </div>
+          )}
+          <div className="relative flex-1">
+            <button
+              onClick={() => setSidebarOpen((v) => !v)}
+              className="absolute top-3 left-3 z-10 rounded-full border border-zinc-300 bg-zinc-100 px-3 py-1.5 text-xs font-medium text-zinc-600 transition-colors hover:bg-zinc-200 dark:border-white/10 dark:bg-white/10 dark:text-white/70 dark:hover:bg-white/20"
+            >
+              {sidebarOpen ? "Hide sidebar" : "Show sidebar"}
+            </button>
+            <Thread isDark={isDark} onToggleTheme={() => setIsDark((v) => !v)} />
+          </div>
+        </div>
       </AssistantRuntimeProvider>
     </div>
   );

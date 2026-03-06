@@ -1,0 +1,87 @@
+---
+title: ThreadList & ThreadListItem
+description: Sidebar thread list with "New Thread" button, loading skeletons, and per-item context menus.
+---
+
+## Overview
+
+`ThreadList` renders a sidebar of conversation threads with a "New Thread" button and loading skeletons. `ThreadListItem` renders each thread with a title, active state highlighting, and a context menu with archive/delete actions.
+
+## Demo
+
+<ThreadListDemo />
+
+## When to use
+
+- Build a sidebar showing all conversation threads
+- Provide "New Thread", archive, and delete actions
+- Show loading skeletons during thread list fetch
+
+## Features
+
+- **Loading state**: Automatic skeleton rows while threads load via `AuiIf`
+- **Config-driven actions**: Choose which actions appear in the context menu (`archive`, `delete`, `unarchive`)
+- **Active state**: Current thread is highlighted via `data-[active]`
+- **Composable**: Use `ThreadListItem` standalone or pass a custom component to `ThreadList`
+
+## ThreadList Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | string | — | Root list container class |
+| `newThreadLabel` | string | `"New Thread"` | Button label |
+| `newThreadClassName` | string | — | New thread button class |
+| `newThreadIcon` | ReactNode | plus SVG | Custom icon |
+| `skeletonCount` | number | `5` | Number of skeleton rows |
+| `skeletonClassName` | string | — | Skeleton bar class |
+| `renderSkeleton` | `() => ReactNode` | — | Custom skeleton renderer |
+| `renderNewThread` | `() => ReactNode` | — | Custom new thread button |
+| `ThreadListItem` | ComponentType | — | Custom thread list item component |
+
+## ThreadListItem Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | string | — | Item root class |
+| `triggerClassName` | string | — | Clickable area class |
+| `titleClassName` | string | — | Title text class |
+| `titleFallback` | string | `"New Chat"` | Fallback when thread has no title |
+| `actions` | `ThreadListAction[]` | `["archive", "delete"]` | Actions in the context menu |
+| `moreButtonClassName` | string | — | More button class |
+| `menuClassName` | string | — | Dropdown menu class |
+| `menuItemClassName` | string | — | Menu item class |
+| `renderTitle` | `() => ReactNode` | — | Custom title renderer |
+| `renderMore` | `() => ReactNode` | — | Custom context menu renderer |
+
+## Basic Usage
+
+```tsx
+import { ThreadList, ThreadListItem } from "@assistant-ui/chords";
+
+<ThreadList
+  ThreadListItem={() => (
+    <ThreadListItem actions={["archive", "delete"]} />
+  )}
+/>
+```
+
+## With Unarchive
+
+```tsx
+<ThreadListItem actions={["unarchive", "delete"]} />
+```
+
+## Underlying Primitives
+
+`ThreadList` wraps:
+- `ThreadListPrimitive.Root` — list container
+- `ThreadListPrimitive.New` — new thread button
+- `ThreadListPrimitive.Items` — renders thread items
+- `AuiIf` — conditional rendering for loading/loaded states
+
+`ThreadListItem` wraps:
+- `ThreadListItemPrimitive.Root` — item container with `data-[active]`
+- `ThreadListItemPrimitive.Trigger` — clickable area to switch threads
+- `ThreadListItemPrimitive.Title` — thread title with fallback
+- `ThreadListItemPrimitive.Archive` / `.Unarchive` / `.Delete` — action buttons
+- `ThreadListItemMorePrimitive` — context menu (`.Root`, `.Trigger`, `.Content`, `.Item`)

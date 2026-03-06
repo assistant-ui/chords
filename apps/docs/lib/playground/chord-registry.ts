@@ -122,6 +122,17 @@ export const chordRegistry: Record<ChordId, ChordMeta> = {
       label: "Reasoning",
     },
   },
+  "thread-list": {
+    id: "thread-list",
+    name: "ThreadList",
+    category: "major",
+    description: "Sidebar thread list with new thread button, loading skeletons, and context menus",
+    defaultConfig: {
+      newThreadLabel: "New Thread",
+      titleFallback: "New Chat",
+      actions: ["archive", "delete"],
+    },
+  },
   "scroll-to-bottom": {
     id: "scroll-to-bottom",
     name: "ScrollToBottom",

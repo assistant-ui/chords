@@ -56,6 +56,12 @@ const majorChords = [
       "Thumbs up/down feedback buttons with automatic state management.",
     href: "/docs/major-chords/feedback-buttons",
   },
+  {
+    name: "ThreadList",
+    description:
+      "Sidebar thread list with new thread button, loading skeletons, and context menus.",
+    href: "/docs/major-chords/thread-list",
+  },
 ];
 
 const minorChords = [

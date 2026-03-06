@@ -28,6 +28,7 @@ import { AttachmentDemo } from "@/components/demo/attachment-demo";
 import { ToolCallRendererDemo } from "@/components/demo/tool-call-renderer-demo";
 import { ReasoningAccordionDemo } from "@/components/demo/reasoning-accordion-demo";
 import { FeedbackButtonsDemo } from "@/components/demo/feedback-buttons-demo";
+import { ThreadListDemo } from "@/components/demo/thread-list-demo";
 
 type Components = Record<string, React.ComponentType<any>>;
 
@@ -61,6 +62,7 @@ export function getMDXComponents(components?: Components): Components {
     ToolCallRendererDemo,
     ReasoningAccordionDemo,
     FeedbackButtonsDemo,
+    ThreadListDemo,
     blockquote: (props: any) => <Callout>{props.children}</Callout>,
     ...components,
   };
