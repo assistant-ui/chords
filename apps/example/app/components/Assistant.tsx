@@ -15,6 +15,7 @@ import {
   ComposerAddAttachment,
   ComposerAttachments,
   EditComposer,
+  FeedbackButtons,
   FollowUpSuggestions,
   MessageActionBar,
   MessageAttachments,
@@ -39,6 +40,11 @@ export const Assistant: FC = () => {
             { prompt: "Can you give an example?" },
             { prompt: "What are the alternatives?" },
           ];
+        },
+      },
+      feedback: {
+        submit: async ({ type }) => {
+          console.log(`Feedback submitted: ${type}`);
         },
       },
     },
@@ -155,6 +161,7 @@ const AssistantMessage: FC = () => {
         <MessageStatus />
         <div className="mt-1 flex items-center gap-2 opacity-0 transition-opacity group-hover/message:opacity-100">
           <MessageActionBar actions={["copy", "reload"]} />
+          <FeedbackButtons />
           <BranchNavigation />
         </div>
       </div>
