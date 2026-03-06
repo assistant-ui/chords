@@ -1,0 +1,76 @@
+---
+title: FeedbackButtons
+description: Thumbs up / thumbs down feedback buttons with automatic state management.
+---
+
+## Overview
+
+`FeedbackButtons` provides thumbs up and thumbs down buttons for assistant messages. It wraps `ActionBarPrimitive.FeedbackPositive` and `ActionBarPrimitive.FeedbackNegative`, which handle `submitFeedback` calls and highlight the selected button automatically via `data-submitted`.
+
+## Demo
+
+<FeedbackButtonsDemo />
+
+## When to use
+
+- Collect user feedback on assistant responses
+- Show which response was rated positively or negatively
+- Build feedback loops for model improvement
+
+## Features
+
+- **State-aware**: Automatically highlights the submitted feedback button via `data-submitted`
+- **Zero wiring**: `submitFeedback` is called by the underlying primitives — no callbacks needed
+- **Customizable**: Override classes, labels, and icons
+- **Accessible**: Proper `aria-label` on each button
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | string | — | Root container class |
+| `positiveClassName` | string | — | Thumbs up button class |
+| `negativeClassName` | string | — | Thumbs down button class |
+| `iconClassName` | string | — | Icon class for both icons |
+| `positiveLabel` | string | `"Good response"` | Aria-label for thumbs up |
+| `negativeLabel` | string | `"Bad response"` | Aria-label for thumbs down |
+| `renderPositiveIcon` | `() => ReactNode` | — | Custom thumbs up icon |
+| `renderNegativeIcon` | `() => ReactNode` | — | Custom thumbs down icon |
+
+## Basic Usage
+
+```tsx
+import { FeedbackButtons } from "@assistant-ui/chords";
+
+// Inside an assistant message
+<MessagePrimitive.Root>
+  <MessagePrimitive.Content />
+  <FeedbackButtons />
+</MessagePrimitive.Root>
+```
+
+## With MessageActionBar
+
+```tsx
+<div className="flex items-center gap-2">
+  <MessageActionBar actions={["copy", "reload"]} />
+  <FeedbackButtons />
+</div>
+```
+
+## Custom Labels
+
+```tsx
+<FeedbackButtons
+  positiveLabel="Helpful"
+  negativeLabel="Not helpful"
+/>
+```
+
+## Underlying Primitives
+
+`FeedbackButtons` wraps:
+- `ActionBarPrimitive.FeedbackPositive` — calls `submitFeedback({ type: "positive" })`, sets `data-submitted` when positive feedback is active
+- `ActionBarPrimitive.FeedbackNegative` — calls `submitFeedback({ type: "negative" })`, sets `data-submitted` when negative feedback is active
+
+The `data-submitted` attribute is used for styling the active/highlighted state.

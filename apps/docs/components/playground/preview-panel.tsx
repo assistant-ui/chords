@@ -18,6 +18,7 @@ import { SuggestionChipsPreview } from "./previews/suggestion-chips-preview";
 import { ThreadEmptyPreview } from "./previews/thread-empty-preview";
 import { ScrollToBottomPreview } from "./previews/scroll-to-bottom-preview";
 import { ReasoningAccordionPreview } from "./previews/reasoning-accordion-preview";
+import { FeedbackButtonsPreview } from "./previews/feedback-buttons-preview";
 
 type PreviewPanelProps = {
   chordId: ChordId;
@@ -38,6 +39,7 @@ const previewMap: Record<ChordId, React.FC<{ config: ChordConfig }>> = {
   "thread-empty": ThreadEmptyPreview,
   "scroll-to-bottom": ScrollToBottomPreview,
   "reasoning-accordion": ReasoningAccordionPreview,
+  "feedback-buttons": FeedbackButtonsPreview,
 };
 
 export function PreviewPanel({ chordId, config }: PreviewPanelProps) {

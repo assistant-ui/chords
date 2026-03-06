@@ -140,6 +140,14 @@ const generators: Record<ChordId, (config: ChordConfig) => CodeGenResult> = {
 </ThreadPrimitive.Empty>`,
     };
   },
+  "feedback-buttons": (config) => {
+    const defaults = chordRegistry["feedback-buttons"].defaultConfig;
+    const props = buildPropsString(config, defaults);
+    return {
+      imports: `import { FeedbackButtons } from "@assistant-ui/chords";`,
+      jsx: `<FeedbackButtons${props} />`,
+    };
+  },
   "reasoning-accordion": (config) => {
     const defaults = chordRegistry["reasoning-accordion"].defaultConfig;
     const props = buildPropsString(config, defaults);

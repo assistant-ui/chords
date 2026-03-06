@@ -50,6 +50,12 @@ const majorChords = [
       "Collapsible accordion for AI reasoning with auto-expand during streaming.",
     href: "/docs/major-chords/reasoning-accordion",
   },
+  {
+    name: "FeedbackButtons",
+    description:
+      "Thumbs up/down feedback buttons with automatic state management.",
+    href: "/docs/major-chords/feedback-buttons",
+  },
 ];
 
 const minorChords = [

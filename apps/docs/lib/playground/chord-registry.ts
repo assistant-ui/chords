@@ -103,6 +103,16 @@ export const chordRegistry: Record<ChordId, ChordMeta> = {
       icon: "U",
     },
   },
+  "feedback-buttons": {
+    id: "feedback-buttons",
+    name: "FeedbackButtons",
+    category: "major",
+    description: "Thumbs up/down feedback buttons with automatic state management",
+    defaultConfig: {
+      positiveLabel: "Good response",
+      negativeLabel: "Bad response",
+    },
+  },
   "reasoning-accordion": {
     id: "reasoning-accordion",
     name: "ReasoningAccordion",

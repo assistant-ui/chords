@@ -12,6 +12,7 @@ export const CHORD_IDS = [
   "thread-empty",
   "scroll-to-bottom",
   "reasoning-accordion",
+  "feedback-buttons",
 ] as const;
 
 export type ChordId = (typeof CHORD_IDS)[number];
