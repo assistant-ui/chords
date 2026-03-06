@@ -9,6 +9,7 @@
     "follow-up-suggestions",
     "attachment",
     "tool-call-renderer",
-    "reasoning-accordion"
+    "reasoning-accordion",
+    "feedback-buttons"
   ]
 }

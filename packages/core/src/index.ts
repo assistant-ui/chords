@@ -11,3 +11,4 @@ export * from "./primitives/follow-up-suggestions";
 export * from "./primitives/attachment";
 export * from "./primitives/tool-call-renderer";
 export * from "./primitives/reasoning-accordion";
+export * from "./primitives/feedback-buttons";
