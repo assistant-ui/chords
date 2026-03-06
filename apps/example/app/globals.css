@@ -1,5 +1,7 @@
 @import "tailwindcss";
+@import "../node_modules/tw-shimmer/src/index.css";
 @source "../node_modules/@assistant-ui/chords/dist";
+@source inline("shimmer");
 
 @custom-variant dark (&:where(.dark, .dark *));
 

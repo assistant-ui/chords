@@ -8,6 +8,7 @@
     "edit-composer",
     "follow-up-suggestions",
     "attachment",
-    "tool-call-renderer"
+    "tool-call-renderer",
+    "reasoning-accordion"
   ]
 }

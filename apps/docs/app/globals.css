@@ -3,6 +3,7 @@
 @import "fumadocs-ui/css/preset.css";
 @import "../node_modules/tw-shimmer/src/index.css";
 @source "../node_modules/@assistant-ui/chords/dist";
+@source inline("shimmer");
 
 /* Safelist color utilities for playground dynamic class inputs.
    Tailwind 4 @source inline() scans for literal class names — no brace expansion. */

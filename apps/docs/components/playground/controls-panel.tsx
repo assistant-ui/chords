@@ -12,6 +12,7 @@ import { SuggestionChipsControls } from "./controls/suggestion-chips-controls";
 import { ThreadEmptyControls } from "./controls/thread-empty-controls";
 import { AttachmentControls } from "./controls/attachment-controls";
 import { ScrollToBottomControls } from "./controls/scroll-to-bottom-controls";
+import { ReasoningAccordionControls } from "./controls/reasoning-accordion-controls";
 
 type ControlsPanelProps = {
   chordId: ChordId;
@@ -33,6 +34,7 @@ const controlsMap: Partial<
   "thread-empty": ThreadEmptyControls,
   attachment: AttachmentControls,
   "scroll-to-bottom": ScrollToBottomControls,
+  "reasoning-accordion": ReasoningAccordionControls,
 };
 
 export function ControlsPanel({ chordId, config, onChange }: ControlsPanelProps) {

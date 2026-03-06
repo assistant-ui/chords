@@ -15,7 +15,8 @@
     "@assistant-ui/chords": "workspace:*",
     "@assistant-ui/styles": "^0.1.4",
     "clsx": "^2.1.1",
-    "tailwind-merge": "^3.4.0"
+    "tailwind-merge": "^3.4.0",
+    "tw-shimmer": "^0.4.6"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

@@ -24,6 +24,49 @@ export function createPlaygroundAdapter(): ChatModelAdapter {
   };
 }
 
+export function createReasoningAdapter(): ChatModelAdapter {
+  return {
+    async *run({ abortSignal }) {
+      const reasoning =
+        "Let me think about this step by step. First, I need to consider the quantum mechanical principles involved. Entanglement occurs when particles become correlated in such a way that the quantum state of each particle cannot be described independently.";
+      const text =
+        "Quantum entanglement is a phenomenon where two particles become linked, so measuring one instantly affects the other — no matter the distance between them.";
+
+      // Stream reasoning parts
+      for (let i = 0; i < reasoning.length; i++) {
+        if (abortSignal.aborted) return;
+        await new Promise((r) => setTimeout(r, 8));
+        yield {
+          content: [
+            {
+              type: "reasoning" as const,
+              text: reasoning.slice(0, i + 1),
+            },
+          ],
+        };
+      }
+
+      // Stream text response with reasoning preserved
+      for (let i = 0; i < text.length; i++) {
+        if (abortSignal.aborted) return;
+        await new Promise((r) => setTimeout(r, 12));
+        yield {
+          content: [
+            {
+              type: "reasoning" as const,
+              text: reasoning,
+            },
+            {
+              type: "text" as const,
+              text: text.slice(0, i + 1),
+            },
+          ],
+        };
+      }
+    },
+  };
+}
+
 export function createToolCallAdapter(): ChatModelAdapter {
   let callCount = 0;
   return {
