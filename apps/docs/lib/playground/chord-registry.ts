@@ -133,6 +133,15 @@ export const chordRegistry: Record<ChordId, ChordMeta> = {
       actions: ["archive", "delete"],
     },
   },
+  "tool-group": {
+    id: "tool-group",
+    name: "ToolGroup",
+    category: "major",
+    description: "Collapsible container grouping consecutive tool calls with count badge and spinner",
+    defaultConfig: {
+      defaultOpen: false,
+    },
+  },
   "scroll-to-bottom": {
     id: "scroll-to-bottom",
     name: "ScrollToBottom",
