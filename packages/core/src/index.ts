@@ -13,4 +13,5 @@ export * from "./primitives/tool-call-renderer";
 export * from "./primitives/reasoning-accordion";
 export * from "./primitives/feedback-buttons";
 export * from "./primitives/thread-list";
+export * from "./primitives/tool-group";
 export * from "./primitives/thread-list-item";
