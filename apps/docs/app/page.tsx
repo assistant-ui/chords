@@ -62,6 +62,12 @@ const majorChords = [
       "Sidebar thread list with new thread button, loading skeletons, and context menus.",
     href: "/docs/major-chords/thread-list",
   },
+  {
+    name: "ToolGroup",
+    description:
+      "Collapsible container grouping consecutive tool calls with count badge and spinner.",
+    href: "/docs/major-chords/tool-group",
+  },
 ];
 
 const minorChords = [

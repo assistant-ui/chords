@@ -26,6 +26,7 @@ import {
   ThreadList,
   ThreadListItem,
   ToolCallRenderer,
+  ToolGroup,
 } from "@assistant-ui/chords";
 import { mockModelAdapter } from "../lib/mock-model-adapter";
 import type { FC } from "react";
@@ -176,6 +177,7 @@ const AssistantMessage: FC = () => {
               Text: ({ text }) => <span>{text}</span>,
               Reasoning: ({ text }) => <span>{text}</span>,
               ReasoningGroup: ReasoningAccordion,
+              ToolGroup: ToolGroup,
               tools: { Fallback: ToolCallRenderer },
             }}
           />

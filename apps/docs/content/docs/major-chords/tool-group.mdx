@@ -1,0 +1,64 @@
+---
+title: ToolGroup
+description: Collapsible container that groups consecutive tool calls with a count badge and spinner.
+---
+
+## Overview
+
+`ToolGroup` groups consecutive tool calls into a single collapsible container. It shows a count badge ("3 tool calls"), a spinner during execution, and a shimmer effect while tools are running.
+
+## Demo
+
+<ToolGroupDemo />
+
+## When to use
+
+- Group multiple consecutive tool calls visually
+- Show a spinner while tools execute
+- Let users expand/collapse tool call details
+
+## Features
+
+- **Auto-grouping**: Automatically receives consecutive tool-call parts from `MessagePrimitive.Parts`
+- **Active detection**: Shows spinner and shimmer when any tool in the group is running
+- **Collapsible**: Click to expand/collapse tool call details
+- **Pluralized label**: "1 tool call" vs "3 tool calls"
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `className` | string | — | Root container class |
+| `triggerClassName` | string | — | Trigger row class |
+| `contentClassName` | string | — | Collapsible content area class |
+| `defaultOpen` | boolean | `false` | Whether to start expanded |
+| `label` | `(count: number) => string` | — | Custom label function |
+| `renderTrigger` | `(props) => ReactNode` | — | Custom trigger renderer |
+
+## Basic Usage
+
+```tsx
+import { ToolCallRenderer, ToolGroup } from "@assistant-ui/chords";
+
+<MessagePrimitive.Parts
+  components={{
+    Text: ({ text }) => <span>{text}</span>,
+    tools: { Fallback: ToolCallRenderer },
+    ToolGroup: ToolGroup,
+  }}
+/>
+```
+
+## With Custom Label
+
+```tsx
+<ToolGroup
+  label={(n) => `${n} function ${n === 1 ? "executed" : "executions"}`}
+/>
+```
+
+## Underlying Primitives
+
+`ToolGroup` is used as the `ToolGroup` component in `MessagePrimitive.Parts`. The framework automatically groups consecutive `tool-call` message parts and passes them as children.
+
+It reads message state via `useAuiState` to detect whether any tool in the group is currently running.

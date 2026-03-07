@@ -182,6 +182,20 @@ const generators: Record<ChordId, (config: ChordConfig) => CodeGenResult> = {
 />`,
     };
   },
+  "tool-group": (config) => {
+    const defaults = chordRegistry["tool-group"].defaultConfig;
+    const props = buildPropsString(config, defaults);
+    return {
+      imports: `import { ToolCallRenderer, ToolGroup } from "@assistant-ui/chords";`,
+      jsx: `<MessagePrimitive.Parts
+  components={{
+    Text: ({ text }) => <span>{text}</span>,
+    tools: { Fallback: ToolCallRenderer },
+    ToolGroup: ToolGroup,
+  }}
+/>`,
+    };
+  },
   "scroll-to-bottom": (config) => {
     const defaults = chordRegistry["scroll-to-bottom"].defaultConfig;
     const props = buildPropsString(config, defaults);

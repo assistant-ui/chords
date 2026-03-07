@@ -11,6 +11,7 @@
     "tool-call-renderer",
     "reasoning-accordion",
     "feedback-buttons",
-    "thread-list"
+    "thread-list",
+    "tool-group"
   ]
 }
