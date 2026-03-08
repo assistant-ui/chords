@@ -10,6 +10,7 @@ import {
   SimpleImageAttachmentAdapter,
 } from "@assistant-ui/react";
 import {
+  ActionBarMore,
   BranchNavigation,
   ComposerActionStatus,
   ComposerAddAttachment,
@@ -183,8 +184,9 @@ const AssistantMessage: FC = () => {
           />
         </div>
         <MessageStatus />
-        <div className="mt-1 flex items-center gap-2 opacity-0 transition-opacity group-hover/message:opacity-100">
+        <div className="mt-1 flex items-center gap-2 opacity-0 transition-opacity group-hover/message:opacity-100 has-[[data-state=open]]:opacity-100">
           <MessageActionBar actions={["copy", "reload"]} />
+          <ActionBarMore />
           <FeedbackButtons />
           <BranchNavigation />
         </div>
