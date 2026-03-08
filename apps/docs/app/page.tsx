@@ -68,6 +68,12 @@ const majorChords = [
       "Collapsible container grouping consecutive tool calls with count badge and spinner.",
     href: "/docs/major-chords/tool-group",
   },
+  {
+    name: "ActionBarMore",
+    description:
+      "Overflow dropdown menu for action bars with export markdown and custom actions.",
+    href: "/docs/major-chords/action-bar-more",
+  },
 ];
 
 const minorChords = [
