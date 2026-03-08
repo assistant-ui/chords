@@ -21,6 +21,7 @@ import { ReasoningAccordionPreview } from "./previews/reasoning-accordion-previe
 import { FeedbackButtonsPreview } from "./previews/feedback-buttons-preview";
 import { ThreadListPreview } from "./previews/thread-list-preview";
 import { ToolGroupPreview } from "./previews/tool-group-preview";
+import { ActionBarMorePreview } from "./previews/action-bar-more-preview";
 
 type PreviewPanelProps = {
   chordId: ChordId;
@@ -44,6 +45,7 @@ const previewMap: Record<ChordId, React.FC<{ config: ChordConfig }>> = {
   "feedback-buttons": FeedbackButtonsPreview,
   "thread-list": ThreadListPreview,
   "tool-group": ToolGroupPreview,
+  "action-bar-more": ActionBarMorePreview,
 };
 
 export function PreviewPanel({ chordId, config }: PreviewPanelProps) {

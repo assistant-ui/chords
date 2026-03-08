@@ -196,6 +196,17 @@ const generators: Record<ChordId, (config: ChordConfig) => CodeGenResult> = {
 />`,
     };
   },
+  "action-bar-more": (config) => {
+    const defaults = chordRegistry["action-bar-more"].defaultConfig;
+    const props = buildPropsString(config, defaults);
+    return {
+      imports: `import { ActionBarMore, CopyButton } from "@assistant-ui/chords";`,
+      jsx: `<ActionBarPrimitive.Root>
+  <CopyButton />
+  <ActionBarMore${props} />
+</ActionBarPrimitive.Root>`,
+    };
+  },
   "scroll-to-bottom": (config) => {
     const defaults = chordRegistry["scroll-to-bottom"].defaultConfig;
     const props = buildPropsString(config, defaults);

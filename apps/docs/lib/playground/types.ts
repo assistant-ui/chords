@@ -15,6 +15,7 @@ export const CHORD_IDS = [
   "feedback-buttons",
   "thread-list",
   "tool-group",
+  "action-bar-more",
 ] as const;
 
 export type ChordId = (typeof CHORD_IDS)[number];

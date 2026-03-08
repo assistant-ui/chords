@@ -30,6 +30,7 @@ import { ReasoningAccordionDemo } from "@/components/demo/reasoning-accordion-de
 import { FeedbackButtonsDemo } from "@/components/demo/feedback-buttons-demo";
 import { ThreadListDemo } from "@/components/demo/thread-list-demo";
 import { ToolGroupDemo } from "@/components/demo/tool-group-demo";
+import { ActionBarMoreDemo } from "@/components/demo/action-bar-more-demo";
 
 type Components = Record<string, React.ComponentType<any>>;
 
@@ -65,6 +66,7 @@ export function getMDXComponents(components?: Components): Components {
     FeedbackButtonsDemo,
     ThreadListDemo,
     ToolGroupDemo,
+    ActionBarMoreDemo,
     blockquote: (props: any) => <Callout>{props.children}</Callout>,
     ...components,
   };

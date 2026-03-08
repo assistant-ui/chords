@@ -16,6 +16,7 @@ import { ReasoningAccordionControls } from "./controls/reasoning-accordion-contr
 import { FeedbackButtonsControls } from "./controls/feedback-buttons-controls";
 import { ThreadListControls } from "./controls/thread-list-controls";
 import { ToolGroupControls } from "./controls/tool-group-controls";
+import { ActionBarMoreControls } from "./controls/action-bar-more-controls";
 
 type ControlsPanelProps = {
   chordId: ChordId;
@@ -41,6 +42,7 @@ const controlsMap: Partial<
   "feedback-buttons": FeedbackButtonsControls,
   "thread-list": ThreadListControls,
   "tool-group": ToolGroupControls,
+  "action-bar-more": ActionBarMoreControls,
 };
 
 export function ControlsPanel({ chordId, config, onChange }: ControlsPanelProps) {

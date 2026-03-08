@@ -142,6 +142,16 @@ export const chordRegistry: Record<ChordId, ChordMeta> = {
       defaultOpen: false,
     },
   },
+  "action-bar-more": {
+    id: "action-bar-more",
+    name: "ActionBarMore",
+    category: "major",
+    description: "Overflow dropdown menu for action bars with export markdown and custom actions",
+    defaultConfig: {
+      side: "bottom",
+      align: "start",
+    },
+  },
   "scroll-to-bottom": {
     id: "scroll-to-bottom",
     name: "ScrollToBottom",
